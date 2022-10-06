@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Hennis_DAL.DbEntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,13 @@ namespace Hennis_DAL.Data
         {
 
         }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+        public DbSet<HtmlContent> HtmlContents { get; set; }
+
+        public DbSet<Layout> Layouts { get; set; }
+        public DbSet<LayoutZone> LayoutZones { get; set; }
+        public DbSet<Page> Page { get; set; }
     }
 }
