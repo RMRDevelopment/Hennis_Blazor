@@ -1,9 +1,26 @@
 ﻿@page "/"
 
+
 <PageTitle>Index</PageTitle>
+
+<SfRichTextEditor @bind-Value="@Value" @ref="RteObj" SaveInterval="500" AutoSaveOnIdle="true" SaveUrl="api/Image/Save" Path="./Images/">
+    <p>Rich Text Editor allows to insert images from online source as well as local computer where you want to insert the image in your content.</p>
+    <p><b>Get started Quick Toolbar to click on the image</b></p>
+    <p>It is possible to add custom style on the selected image inside the Rich Text Editor through quick toolbar.</p>
+</SfRichTextEditor>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+    SfRichTextEditor RteObj;
+    private string Value { get; set; } = "<p>Syncfusion RichTextEditor</p>";
+    public void ValueChangeHandler(Syncfusion.Blazor.RichTextEditor.ChangeEventArgs args)
+    {
+        //here you can can get the editor value using args.value
+        this.Value = args.Value;
+    }
+}

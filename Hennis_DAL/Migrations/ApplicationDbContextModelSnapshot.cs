@@ -62,7 +62,19 @@ namespace Hennis_DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Layout");
+                    b.ToTable("Layout", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Full Width"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Two Column"
+                        });
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.LayoutZone", b =>
@@ -84,7 +96,39 @@ namespace Hennis_DAL.Migrations
 
                     b.HasIndex("LayoutId");
 
-                    b.ToTable("LayoutZone");
+                    b.ToTable("LayoutZone", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LayoutId = 1,
+                            Name = "Feature"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LayoutId = 1,
+                            Name = "ZoneA"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LayoutId = 2,
+                            Name = "Feature"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LayoutId = 2,
+                            Name = "ZoneA"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            LayoutId = 2,
+                            Name = "ZoneB"
+                        });
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.Page", b =>

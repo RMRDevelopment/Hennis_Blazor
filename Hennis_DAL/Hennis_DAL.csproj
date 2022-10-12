@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hennis_Models\Hennis_Models.csproj" />
+  </ItemGroup>
+
 </Project>

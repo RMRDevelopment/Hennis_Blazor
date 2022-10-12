@@ -17,7 +17,7 @@ namespace Hennis_DAL.DbEntities
 
         public int Order { get; set; }
 
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         #region Virtual Properties
         [ForeignKey("LayoutId")]

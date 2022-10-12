@@ -1,0 +1,49 @@
+﻿@page "/pages"
+@inject IPageRepository _pageRepository
+
+<div class="row mt-4">
+    <div class="col-6">
+        Pages
+    </div>
+    <div class="col-4 offset-2">
+        <a href="pages/create" class="btn btn-primary form-control">Add New Page</a>
+    </div>
+
+    <div class="col-12 py-2">
+        @if (Pages.Any()){
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Parent Page</th>
+                        <th>Show In Menu?</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var p in Pages){
+                        <tr>
+                            <td>@p.Name</td>
+                            <td></td>
+                            <td></td>
+                            <td><NavLink href="@($"pages/edit/{p.Id}")" class="btn btn-primary">Edit</NavLink></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else{
+            if (IsLoading){
+                <div class="text-center">
+                    <img src="/images/loading.gif"/>
+                    </div>
+            } else{
+                <p>No pages found</p>
+            }
+        }
+    </div>
+</div>
+
+@code {
+
+}

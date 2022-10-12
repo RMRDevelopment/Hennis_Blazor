@@ -1,0 +1,54 @@
+﻿@page "/pages/create"
+@page "/pages/edit/{id:int}"
+@inject IPageRepository _pageRepository;
+@inject ILayoutRepository _layoutRepository;
+@inject NavigationManager _navigation;
+@inject IJSRuntime _jsRuntime;
+
+<div class="row">
+    <h3 class="card-title text-primary mb-3 ml-3">@Title Page</h3>
+
+    <div class="col-md-10">
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/loading.gif" />
+            </div>
+        }
+        else
+        {
+            <EditForm Model="Page" OnValidSubmit="UpsertPage">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText @bind-Value="Page.Name" class="form-control"></InputText>
+                    <ValidationMessage For="()=>Page.Name" />
+                </div>
+
+                <div class="col-lg-12 control-section">
+                    <div class="control-wrapper">
+                        <label class="example-label">Layout</label>
+                        <SfDropDownList TItem="GameFields" TValue="string" PopupHeight="230px"  Placeholder="e.g. Basketball" @bind-Value="@DropDownValue" DataSource="@Games">
+                            <DropDownListEvents TItem="GameFields" TValue="string" ValueChange="OnChange"/>
+                            <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        </SfDropDownList>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group py-2">
+                    <button class="btn btn-primary">@Title</button>
+                    <NavLink href="pages" class="btn btn-secondary">Back to Index</NavLink>
+                </div>
+            </EditForm>
+        }
+    </div>
+</div>
+
+
+@code {
+
+}
