@@ -4,6 +4,11 @@
 @inject ILayoutRepository _layoutRepository;
 @inject NavigationManager _navigation;
 @inject IJSRuntime _jsRuntime;
+@using Hennis_Common
+@using Hennis_Models.Dto;
+
+<_AuthenticationRedirect Role="@SD.Role_SuperAdmin"></_AuthenticationRedirect>
+
 
 <div class="row">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Page</h3>
@@ -30,9 +35,9 @@
                 <div class="col-lg-12 control-section">
                     <div class="control-wrapper">
                         <label class="example-label">Layout</label>
-                        <SfDropDownList TItem="GameFields" TValue="string" PopupHeight="230px"  Placeholder="e.g. Basketball" @bind-Value="@DropDownValue" DataSource="@Games">
-                            <DropDownListEvents TItem="GameFields" TValue="string" ValueChange="OnChange"/>
-                            <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        <SfDropDownList TItem="LayoutDto" TValue="string"  Placeholder="Choose a Layout" @bind-Value="@DropDownValue" DataSource="@Layouts">
+                            <DropDownListEvents TItem="LayoutDto" TValue="string" ValueChange="OnChange"/>
+                            <DropDownListFieldSettings Text="Name" Value="Id"/>
                         </SfDropDownList>
                     </div>
                 </div>
@@ -50,5 +55,5 @@
 
 
 @code {
-
+    
 }

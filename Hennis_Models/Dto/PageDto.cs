@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hennis_Models.Dto
 {
-    public class PageDto
+    public class PageDto : BaseModel
     {
         public int Id { get; set; }
 
@@ -17,5 +17,7 @@ namespace Hennis_Models.Dto
         public string Name { get; set; }
 
         public LayoutDto Layout { get; set; }
+
+        public ICollection<HtmlContentDto> HtmlContents { get; set; } = new List<HtmlContentDto>();
     }
 }

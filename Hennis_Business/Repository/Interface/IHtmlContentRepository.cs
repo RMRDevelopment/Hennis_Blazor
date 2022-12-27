@@ -14,7 +14,7 @@ namespace Hennis_Business.Repository.Interface
         public Task<int> Delete(int id);
 
         public Task<HtmlContentDto> Get(int id);
-        public Task<HtmlContentDto> Get(string name);
+        public Task<IEnumerable<HtmlContentDto>> GetByPageId(int pageId);
 
         public Task<IEnumerable<HtmlContentDto>> GetAll();
     }

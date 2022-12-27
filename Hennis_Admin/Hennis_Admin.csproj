@@ -9,24 +9,27 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.9" />
-    <PackageReference Include="Syncfusion.Blazor" Version="20.3.0.48" />
-    <PackageReference Include="Syncfusion.Licensing" Version="20.3.0.48" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+    <PackageReference Include="PdfPig" Version="0.1.6" />
+    <PackageReference Include="PdfSharpTextExtractor" Version="1.0.2" />
+    <PackageReference Include="Syncfusion.Blazor" Version="20.3.0.49" />
+    <PackageReference Include="Syncfusion.Licensing" Version="20.3.0.49" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Hennis_Business\Hennis_Business.csproj" />
+    <ProjectReference Include="..\Hennis_Common\Hennis_Common.csproj" />
     <ProjectReference Include="..\Hennis_DAL\Hennis_DAL.csproj" />
     <ProjectReference Include="..\Hennis_Models\Hennis_Models.csproj" />
   </ItemGroup>

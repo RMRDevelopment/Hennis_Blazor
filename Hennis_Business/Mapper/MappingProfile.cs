@@ -18,6 +18,9 @@ namespace Hennis_Business.Mapper
             CreateMap<Layout,LayoutDto>().ReverseMap();
             CreateMap<LayoutZone,LayoutZoneDto>().ReverseMap();
             CreateMap<HtmlContent, HtmlContentDto>().ReverseMap();
+            CreateMap<Paystub, PaystubDto>()
+                .ForMember(dest => dest.FileData, opt => opt.MapFrom(src => src.File.Bytes))
+                .ReverseMap();
         }
     }
 }

@@ -1,0 +1,67 @@
+﻿@page "/pages/content/create/{pageId:int}"
+@page "/pages/content/edit/{id:int}"
+@inject IPageRepository _pageRepository;
+@inject ILayoutRepository _layoutRepository;
+@inject ILayoutZoneRepository _layoutZoneRepository;
+@inject IHtmlContentRepository _htmlContentRepository;
+@inject NavigationManager _navigation;
+@inject IJSRuntime _jsRuntime;
+
+@using Hennis_Common
+@using Hennis_Models.Dto;
+
+<_AuthenticationRedirect Role="@SD.Role_SuperAdmin"></_AuthenticationRedirect>
+
+
+<div class="row">
+    <h3 class="card-title text-primary mb-3 ml-3">@Title Page Content</h3>
+
+    <div class="col-md-10">
+        @if (IsLoading)
+        {
+                <div class="text-center">
+                    <img src="/images/loading.gif" />
+                </div>
+        }
+        else
+        {
+                <EditForm Model="Page" OnValidSubmit="UpsertContent">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="form-group">
+                        <label>Page: @Page.Name</label>
+                    </div>
+
+                    
+
+                    <div class="col-lg-12 control-section">
+                        <div class="control-wrapper">
+                            <label class="example-label">Layout</label>
+                            <SfDropDownList TItem="LayoutZoneDto" TValue="string"  Placeholder="Choose a Zone" @bind-Value="@DropDownValue" DataSource="@LayoutZones">
+                                <DropDownListEvents TItem="LayoutZoneDto" TValue="string" ValueChange="OnChange"/>
+                                <DropDownListFieldSettings Text="Name" Value="Id"/>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <SfRichTextEditor @bind-Value="@HtmlContent.Content">
+                    <RichTextEditorImageSettings SaveUrl="http://localhost:24147/api/Image/Save" Path="./Images/" />
+                    </SfRichTextEditor>
+
+
+
+                    <div class="form-group py-2">
+                        <button class="btn btn-primary">@Title</button>
+                        <NavLink href="pages" class="btn btn-cancel">Cancel</NavLink>
+                    </div>
+                </EditForm>
+        }
+    </div>
+</div>
+
+@code {
+
+}

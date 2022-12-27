@@ -1,5 +1,8 @@
 ﻿@page "/pages"
+@using Hennis_Common
 @inject IPageRepository _pageRepository
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
 
 <div class="row mt-4">
     <div class="col-6">
@@ -26,7 +29,10 @@
                             <td>@p.Name</td>
                             <td></td>
                             <td></td>
-                            <td><NavLink href="@($"pages/edit/{p.Id}")" class="btn btn-primary">Edit</NavLink></td>
+                            <td>
+                                <NavLink href="@($"pages/edit/{p.Id}")" class="btn btn-primary">Edit</NavLink>
+                                <NavLink href="@($"pages/content/{p.Id}")" class="btn btn-success">Content</NavLink>
+                            </td>
                         </tr>
                     }
                 </tbody>

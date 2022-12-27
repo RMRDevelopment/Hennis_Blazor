@@ -19,19 +19,19 @@ namespace Hennis_DAL.Migrations
                 name: "FirstName",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
-                nullable: false);
+                nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
-                nullable: false);
+                nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "Location",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
-                nullable: false);
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

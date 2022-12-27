@@ -1,14 +1,23 @@
-﻿<div class="row">
-    <div class="col-12">
-        <div>@Zone1</div>
-    </div>
-    <div class="col-12">
-        <div>@Zone2</div>
-    </div>
-
+﻿@using Hennis_Models.Dto
+<div class="row">
+    @*Feature Zone*@
+    @foreach(var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "feature").ToList()){
+        <div class="col-12">
+            <div>@((MarkupString)@content.Content)</div>
+        </div>
+    }
+    @*End Feature Zone*@
+    @*Zone A*@
+    @foreach(var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "zonea").ToList()){
+        <div class="col-12">
+            <div>@((MarkupString)@content.Content)</div>
+        </div>
+    }
+    @*End Zone A*@
+   
 </div>
 
 @code {
-    public string Zone1 { get; set; } = "Zone 1";
-    public string Zone2 { get; set; } = "Zone 2";
+    [Parameter]
+    public PageDto Page { get; set; } = new();
 }

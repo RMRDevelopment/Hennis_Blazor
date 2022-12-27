@@ -1,0 +1,53 @@
+﻿@page "/pages/content/{pageId:int}"
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+
+@inject IPageRepository _pageRepository
+
+<div class="row mt-4">
+    <div class="col-6">
+        Pages
+    </div>
+    <div class="col-4 offset-2">
+        <a href="pages/content/create/@Page.Id" class="btn btn-primary form-control">Add Content</a>
+    </div>
+
+    <div class="col-12 py-2">
+        @if (Page.HtmlContents.Any()){
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Zone</th>
+                        <th>Content</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var content in Page.HtmlContents){
+                        <tr>
+                            <td>@content.Id</td>
+                            <td>@content.LayoutZoneName</td>
+                            <td>@content.Content</td>
+                            <td><NavLink href="@($"pages/content/edit/{content.Id}")" class="btn btn-primary">Edit</NavLink></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else{
+            if (IsLoading){
+                <div class="text-center">
+                    <img src="/images/loading.gif"/>
+                    </div>
+            } else{
+                <p>No content added</p>
+            }
+        }
+    </div>
+</div>
+
+@code {
+
+}

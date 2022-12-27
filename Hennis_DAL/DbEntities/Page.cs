@@ -22,6 +22,8 @@ namespace Hennis_DAL.DbEntities
         #region Virtual Properties
         [ForeignKey("LayoutId")]
         public virtual Layout Layout { get; set; }
+
+        public virtual ICollection<HtmlContent> HtmlContents { get; set; }
         #endregion
 
 

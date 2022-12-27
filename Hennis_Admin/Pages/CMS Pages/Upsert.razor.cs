@@ -30,7 +30,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             IsLoading = true;
             StateHasChanged();
             Layouts = await _layoutRepository.GetAll();
-
+            
             if (Id != 0)
             {
                 Title = "Update";
@@ -43,6 +43,12 @@ namespace Hennis_Admin.Pages.CMS_Pages
 
         private async Task UpsertPage()
         {
+            if (Page.LayoutId == 0)
+            {
+                await _jsRuntime.SweetAlertError("Must select a layout");
+                return;
+            }
+
             if (Id == 0)
             {
                 await _pageRepository.Create(Page);
@@ -56,6 +62,20 @@ namespace Hennis_Admin.Pages.CMS_Pages
             }
 
             _navigation.NavigateTo("/pages");
+        }
+
+        public string DropDownValue { get; set; } = "";
+        public string ChangeValue { get; set; } = "Basketball";
+
+        public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, LayoutDto> args)
+        {
+            if (args.ItemData != null)
+            {
+                Page.LayoutId = args.ItemData.Id;
+            }
+            //this.ChangeValue = args.ItemData.Name;
+
+
         }
 
     }

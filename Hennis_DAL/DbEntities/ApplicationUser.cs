@@ -14,6 +14,6 @@ namespace Hennis_DAL.DbEntities
         public string FirstName { get; set; } = "";
         [Required]
         public string LastName { get; set; } = "";
-        public string Location { get; set; } = "";
+        public string? Location { get; set; }
     }
 }

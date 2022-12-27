@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Hennis_Business.Helper;
 using Hennis_Business.Repository.Interface;
 using Hennis_DAL.Data;
 using Hennis_DAL.DbEntities;
@@ -23,24 +24,60 @@ namespace Hennis_Business.Repository
             _context = context;
             _mapper = mapper;
         }
-        public Task<PageDto> Create(PageDto model)
+        public async Task<PageDto> Create(PageDto model)
         {
-            throw new NotImplementedException();
+            var obj = _mapper.Map<Page>(model);
+            _context.Page.Add(obj);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                ErrorLogHelper.LogError(_context, ex, "Page Create");
+                model.IsError = true;
+                model.ErrorMessage = "An error occurred saving";
+                return model;
+            }
+
+
+            var pageDto = _mapper.Map<PageDto>(obj);
+            return pageDto;
         }
 
-        public Task<int> Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            var obj = _context.Page.FirstOrDefault(x => x.Id == id);
+
+            if (obj != null)
+            {
+                _context.Page.Remove(obj);
+                return await _context.SaveChangesAsync();
+            }
+            return 0;
         }
 
-        public Task<PageDto> Get(int id)
+        public async Task<PageDto> Get(int id)
         {
-            throw new NotImplementedException();
+            var obj = await _context.Page.Include(x => x.Layout).Include(x => x.Layout.LayoutZones).Include(x => x.HtmlContents).FirstOrDefaultAsync(x => x.Id == id);
+            if (obj != null)
+            {
+                return _mapper.Map<PageDto>(obj);
+            }
+
+            return new PageDto();
         }
 
-        public Task<PageDto> Get(string name)
+        public async Task<PageDto> Get(string name)
         {
-            throw new NotImplementedException();
+            var obj = await _context.Page.Include(x => x.Layout).FirstOrDefaultAsync(x => x.Name == name);
+            if (obj != null)
+            {
+                return _mapper.Map<PageDto>(obj);
+            }
+
+            return new PageDto();
         }
 
         public async Task<IEnumerable<PageDto>> GetAll()
@@ -48,9 +85,18 @@ namespace Hennis_Business.Repository
             return _mapper.Map<IEnumerable<Page>, IEnumerable<PageDto>>(_context.Page.Include(x => x.Layout));
         }
 
-        public Task<PageDto> Update(PageDto model)
+        public async Task<PageDto> Update(PageDto model)
         {
-            throw new NotImplementedException();
+            var obj = await _context.Page.FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (obj != null)
+            {
+                obj.Name = model.Name;
+                obj.LayoutId = model.LayoutId;
+                _context.Page.Update(obj);
+                await _context.SaveChangesAsync();
+                return _mapper.Map<PageDto>(obj);
+            }
+            return model;
         }
     }
 }

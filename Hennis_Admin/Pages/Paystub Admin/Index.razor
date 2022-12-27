@@ -1,0 +1,64 @@
+﻿@page "/PaystubAdmin"
+@using Hennis_Admin.Helper
+@using Hennis_Admin.Service.IService
+@inject IJSRuntime _jsRuntime;
+@inject IPaystubService _paystubService;
+<h3>Paystub Admin</h3>
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/loading.gif" />
+    </div>
+}
+else
+{
+    <EditForm Model="Model" OnValidSubmit="UploadPayroll">
+        <div class="row mb-2">
+            <div class="col-6 control-section">
+                <label>Pay Date</label>
+                <SfDatePicker TValue="DateTime?" bind-Value="@DateValue" Placeholder="Choose Pay Date" ShowClearButton="true" ShowTodayButton="true">
+                    <DatePickerEvents TValue="DateTime?" ValueChange="@DateChanged"></DatePickerEvents>
+                </SfDatePicker>
+            </div>
+            <div class="col-6 control-section">
+                <div class="control-wrapper">
+                    <SfUploader ID="UploadFiles" AllowedExtensions=".pdf" ChunkSize="500000" AllowMultiple="false" AutoUpload="true">
+                        <UploaderAsyncSettings SaveUrl="api/File/Save" RemoveUrl="api/File/Remove" />
+                        <UploaderEvents Success="SuccessHandler" />
+                    </SfUploader>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 mb-2 control-section">
+            <div class="control-wrapper">
+                <label class="example-label">Location</label>
+                <SfDropDownList TItem="Location" TValue="string" Placeholder="Choose a Location" @bind-Value="@DropDownValue" DataSource="@LocationList">
+                    <DropDownListEvents TItem="Location" TValue="string" ValueChange="OnDropdownChange" />
+                    <DropDownListFieldSettings Text="Name" Value="Name" />
+                </SfDropDownList>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="col-lg-12">
+            <Syncfusion.Blazor.Buttons.SfButton Disabled="@Disabled" CssClass="btn btn-primary">Upload Payroll</Syncfusion.Blazor.Buttons.SfButton>
+            @*<button class="btn btn-primary" @Disabled>Upload Payroll</button>*@
+        </div>
+
+        <div class="col-lg-12 text-center">
+            @((MarkupString)@Summary)
+        </div>
+    </EditForm>
+
+}
+
+
+
+@code {
+
+
+
+}

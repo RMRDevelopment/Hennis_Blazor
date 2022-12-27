@@ -1,5 +1,10 @@
-﻿using Hennis_Business.Repository.Interface;
+﻿using AutoMapper;
+using Hennis_Business.Helper;
+using Hennis_Business.Repository.Interface;
+using Hennis_DAL.Data;
+using Hennis_DAL.DbEntities;
 using Hennis_Models.Dto;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +15,84 @@ namespace Hennis_Business.Repository
 {
     public class HtmlContentRepository : IHtmlContentRepository
     {
-        public Task<HtmlContentDto> Create(HtmlContentDto model)
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+
+        public HtmlContentRepository(ApplicationDbContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<HtmlContentDto> Create(HtmlContentDto model)
+        {
+
+            var obj = _mapper.Map<HtmlContent>(model);
+            _context.HtmlContents.Add(obj);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorLogHelper.LogError(_context, ex, "Html Content Create");
+                model.IsError = true;
+                model.ErrorMessage = "An error occurred saving";
+                return model;
+            }
+
+
+            var htmlContentDto = _mapper.Map<HtmlContentDto>(obj);
+            return htmlContentDto;
         }
 
-        public Task<int> Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            var obj = _context.HtmlContents.FirstOrDefault(x => x.Id == id);
+
+            if (obj != null)
+            {
+                _context.HtmlContents.Remove(obj);
+                return await _context.SaveChangesAsync();
+            }
+            return 0;
         }
 
-        public Task<HtmlContentDto> Get(int id)
+        public async Task<HtmlContentDto> Get(int id)
         {
-            throw new NotImplementedException();
+            var obj = await _context.HtmlContents.FirstOrDefaultAsync(x => x.Id == id);
+            if (obj != null)
+            {
+                return _mapper.Map<HtmlContentDto>(obj);
+            }
+
+            return new HtmlContentDto();
         }
 
-        public Task<HtmlContentDto> Get(string name)
+
+        public async Task<IEnumerable<HtmlContentDto>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<HtmlContent>, IEnumerable<HtmlContentDto>>(_context.HtmlContents);
         }
 
-        public Task<IEnumerable<HtmlContentDto>> GetAll()
+        public async Task<IEnumerable<HtmlContentDto>> GetByPageId(int pageId)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<HtmlContent>, IEnumerable<HtmlContentDto>>(_context.HtmlContents.Where(x => x.PageId == pageId));
         }
 
-        public Task<HtmlContentDto> Update(HtmlContentDto model)
+        public async Task<HtmlContentDto> Update(HtmlContentDto model)
         {
-            throw new NotImplementedException();
+            var obj = await _context.HtmlContents.FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (obj != null)
+            {
+                obj.PageId = model.PageId;
+                obj.LayoutZoneName = model.LayoutZoneName;
+                obj.Content = model.Content;
+                _context.HtmlContents.Update(obj);
+                await _context.SaveChangesAsync();
+                return _mapper.Map<HtmlContentDto>(obj);
+            }
+            return model;
         }
     }
 }

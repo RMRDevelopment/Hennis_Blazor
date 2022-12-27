@@ -25,6 +25,13 @@ namespace Hennis_DAL.Data
         public DbSet<LayoutZone> LayoutZones { get; set; }
         public DbSet<Page> Page { get; set; }
 
+        public DbSet<ErrorLog> ErrorLogs { get; set; }
+
+        public DbSet<Import> Imports { get; set; }
+
+        public DbSet<Paystub> Paystubs { get; set; }
+        public DbSet<BinaryFile> BinaryFiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

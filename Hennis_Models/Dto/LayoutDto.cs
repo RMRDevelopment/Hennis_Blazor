@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hennis_Models.Dto
 {
-    public class LayoutDto
+    public class LayoutDto : BaseModel
     {
         public int Id { get; set; }
 
