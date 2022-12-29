@@ -12,45 +12,22 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository
 {
-    public class LayoutRepository : ILayoutRepository
+    public class LayoutRepository : GenericRepository<Layout,LayoutDto>, ILayoutRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public LayoutRepository(ApplicationDbContext context, IMapper mapper)
+        public LayoutRepository(IMapper mapper) : base(mapper)
         {
-            _context = context;
             _mapper = mapper;
         }
-        public Task<LayoutDto> Create(LayoutDto model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LayoutDto> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LayoutDto> Get(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<LayoutDto>> GetAll()
-        {
-            return _mapper.Map<IEnumerable<Layout>, IEnumerable<LayoutDto>>(_context.Layouts);
-        }
 
 
-        public Task<LayoutDto> Update(LayoutDto model)
+        public async Task<LayoutDto> Get(string name)
         {
-            throw new NotImplementedException();
+            var result = await _context.Layouts.Where(x => x.Name == name).FirstOrDefaultAsync();
+            return _mapper.Map<LayoutDto>(result);
         }
+
     }
 }

@@ -1,7 +1,30 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url("partials/navbar.css");
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Nunito Sans', Helvetica, Arial, sans-serif;
+    color: #100007;
+}
+
+/** grey color **/
+.primary-bg {
+    background-color: #9bafb2;
+    color: #100007;
+}
+
+/** purple color **/
+.secondary-bg {
+    background-color: #7c606b;
+    color: #fff;
+}
+
+body{
+    background-image:url("assets/leaves.png");
+    background-position:center;
+}
+
+.lsp-1{
+    letter-spacing:1px;
 }
 
 h1:focus {
@@ -62,3 +85,9 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.tile-img-container{
+    position:relative;
+    top:15px;
+    z-index:1;
+}

@@ -16,14 +16,30 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository
 {
-    public class FileRepository : IFileRepository
+    public class FileRepository : GenericRepository<BinaryFile,BinaryFile>, IFileRepository
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public FileRepository(ApplicationDbContext context, IMapper mapper)
+        public FileRepository(IMapper mapper) : base(mapper)
         {
-            _context = context;
+            //_context = context;
             _mapper = mapper;
+        }
+
+        public async Task<BinaryFile> Create(BinaryFile file)
+        {
+            try
+            {
+                await _context.AddAsync(file);
+                await _context.SaveChangesAsync();
+                return file;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         public async Task<BinaryFile> GetBinaryFile(int id)
@@ -43,6 +59,12 @@ namespace Hennis_Business.Repository
             {
                 file = new BinaryFile();
             }
+            return file;
+        }
+
+        public async Task<BinaryFile> GetFileByName(string name)
+        {
+            var file = await _context.BinaryFiles.Where(x => x.FileName == name).FirstOrDefaultAsync();
             return file;
         }
     }

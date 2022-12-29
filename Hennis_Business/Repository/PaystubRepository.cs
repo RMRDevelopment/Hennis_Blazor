@@ -16,13 +16,12 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository
 {
-    public class PaystubRepository : IPaystubRepository
+    public class PaystubRepository : GenericRepository<Paystub, PaystubDto>, IPaystubRepository
     {
-        private readonly ApplicationDbContext _context;
+
         private readonly IMapper _mapper;
-        public PaystubRepository(ApplicationDbContext context, IMapper mapper)
+        public PaystubRepository(IMapper mapper) : base(mapper)
         {
-            _context = context;
             _mapper = mapper;
         }
         public async Task<PaystubDto> Create(PaystubModel model)
@@ -78,10 +77,7 @@ namespace Hennis_Business.Repository
             throw new NotImplementedException();
         }
 
-        public Task<PaystubDto> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+    
 
         public async Task<bool> PaystubExistsForEmployee(string employeeId, DateTime payDate)
         {

@@ -20,6 +20,7 @@ builder.Services.AddCors();
 
 builder.Services.AddScoped<IPageRepository, PageRepository>();
 builder.Services.AddScoped<IHtmlContentRepository, HtmlContentRepository>();
+builder.Services.AddScoped<IHomePageTileRepository, HomePageTileRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 

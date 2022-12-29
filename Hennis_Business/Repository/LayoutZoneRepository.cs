@@ -1,5 +1,10 @@
-﻿using Hennis_Business.Repository.Interface;
+﻿using AutoMapper;
+using Hennis_Business.Repository.Interface;
+using Hennis_DAL.Data;
+using Hennis_DAL.DbEntities;
 using Hennis_Models.Dto;
+using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +13,20 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository
 {
-    public class LayoutZoneRepository : ILayoutZoneRepository
+    public class LayoutZoneRepository : GenericRepository<LayoutZone,LayoutZoneDto>, ILayoutZoneRepository
     {
-        public Task<LayoutZoneDto> Create(LayoutZoneDto model)
+
+        private readonly IMapper _mapper;
+        public LayoutZoneRepository(IMapper mapper) : base(mapper)
         {
-            throw new NotImplementedException();
+            _mapper = mapper;
         }
 
-        public Task<int> Delete(int id)
+        public async Task<LayoutZoneDto> Get(string name)
         {
-            throw new NotImplementedException();
+            var result = await _context.LayoutZones.Where(x => x.Name == name).FirstOrDefaultAsync();
+            return _mapper.Map<LayoutZoneDto>(result);
         }
 
-        public Task<LayoutZoneDto> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LayoutZoneDto> Get(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<LayoutZoneDto>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LayoutZoneDto> Update(LayoutZoneDto model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

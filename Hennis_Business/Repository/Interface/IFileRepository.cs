@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository.Interface
 {
-    public interface IFileRepository
+    public interface IFileRepository : IGenericRepository<BinaryFile, BinaryFile>
     {
         
         Task<BinaryFile> GetBinaryFile(int id);
         Task<BinaryFile> GetBinaryFile(Guid guid);
+
+        Task<BinaryFile> GetFileByName(string name);
+
+        Task<BinaryFile> Create(BinaryFile file);
     }
 }

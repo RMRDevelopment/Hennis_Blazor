@@ -1,4 +1,5 @@
-﻿using Hennis_Models.Dto;
+﻿using Hennis_DAL.DbEntities;
+using Hennis_Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,9 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository.Interface
 {
-    public interface IHtmlContentRepository
+    public interface IHtmlContentRepository : IGenericRepository<HtmlContent,HtmlContentDto>
     {
-        public Task<HtmlContentDto> Create(HtmlContentDto model);
-        public Task<HtmlContentDto> Update(HtmlContentDto model);
-        public Task<int> Delete(int id);
-
-        public Task<HtmlContentDto> Get(int id);
         public Task<IEnumerable<HtmlContentDto>> GetByPageId(int pageId);
-
-        public Task<IEnumerable<HtmlContentDto>> GetAll();
     }
 
 }

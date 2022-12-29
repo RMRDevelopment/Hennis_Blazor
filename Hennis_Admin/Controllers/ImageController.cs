@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
+using Hennis_Business.Repository.Interface;
 
 namespace ImageUpload.Controllers
 {
@@ -14,10 +15,12 @@ namespace ImageUpload.Controllers
     public class ImageController : ControllerBase
     {
         private readonly IWebHostEnvironment hostingEnv;
+        private readonly IFileRepository _fileRepository;
 
-        public ImageController(IWebHostEnvironment env)
+        public ImageController(IWebHostEnvironment env, IFileRepository fileRepository)
         {
             this.hostingEnv = env;
+            _fileRepository = fileRepository;
         }
 
         [HttpGet]
@@ -57,6 +60,22 @@ namespace ImageUpload.Controllers
                                 file.CopyTo(fs);
                                 fs.Flush();
                             }
+
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                // save to database
+                                _fileRepository.Create(new Hennis_DAL.DbEntities.BinaryFile
+                                {
+                                    FileName = file.FileName,
+                                    FileExtension = file.FileName.Substring(file.FileName.IndexOf(".")),
+                                    Bytes = ms.ToArray(),
+                                    Guid = Guid.NewGuid()
+                                    
+
+                                });
+                            }
+
                             Response.StatusCode = 200;
                         }
                         else

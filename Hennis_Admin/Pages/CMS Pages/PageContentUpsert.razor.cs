@@ -44,7 +44,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             if (Id != 0)
             {
                 Title = "Update";
-                HtmlContent = await _htmlContentRepository.Get(Id);
+                HtmlContent = await _htmlContentRepository.GetById(Id);
                 PageId = HtmlContent.PageId;
 
             }
@@ -52,7 +52,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             {
                 HtmlContent.PageId = PageId;
             }
-            Page = await _pageRepository.Get(PageId);
+            Page = await _pageRepository.GetById(PageId);
             LayoutZones = Page.Layout.LayoutZones;
 
             IsLoading = false;
@@ -65,13 +65,15 @@ namespace Hennis_Admin.Pages.CMS_Pages
 
             if (Id == 0)
             {
-                await _htmlContentRepository.Create(HtmlContent);
+                await _htmlContentRepository.Insert(HtmlContent);
+                await _htmlContentRepository.Save();
                 await _jsRuntime.SweetAlertSuccess("Page created successfully");
             }
             else
             {
 
-                await _htmlContentRepository.Update(HtmlContent);
+                _htmlContentRepository.Update(HtmlContent);
+                await _htmlContentRepository.Save();
                 await _jsRuntime.SweetAlertSuccess("Page updated successfully");
             }
 

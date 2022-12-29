@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Hennis_DAL.DbEntities
 {
     [Table("BinaryFile")]
-    public class BinaryFile
+    public class BinaryFile : BaseEntityModel
     {
         public int Id { get; set; }
 

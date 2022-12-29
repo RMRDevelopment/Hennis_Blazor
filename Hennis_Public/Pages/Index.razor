@@ -2,6 +2,10 @@
 @inject IPageRepository _pageRepository
 @using Hennis_Models.Dto
 
+<PageTitle>Index</PageTitle>
+
+
+
 @if (IsLoading)
 {
     <div class="text-center">
@@ -10,9 +14,21 @@
 }
 else
 {
-    <PageTitle>Index</PageTitle>
 
+    <!-- Start Video Banner-->
 
+    <div class="mb-5">
+        <img src="/images/videobg.jpg"/>
+    </div>
+
+    <!-- End Video Banner-->
+    
+    <!-- Start Home Page Tiles-->
+    <Hennis_Public.Pages.Components._HomePageTiles></Hennis_Public.Pages.Components._HomePageTiles>
+    <!-- End Home Page Tiles -->
+
+    <div class="container">
+    <!-- section for text-->
     @if (Page.LayoutId == 1)
     {
         <Hennis_Public.Shared.Layouts._FullWidth Page="Page"></Hennis_Public.Shared.Layouts._FullWidth>
@@ -21,7 +37,11 @@ else
     {
         <Hennis_Public.Shared.Layouts._TwoColumn Page="Page"></Hennis_Public.Shared.Layouts._TwoColumn>
     }
+    <!-- end text section-->
+    </div>
 }
+
+
 
 @code {
     public int LayoutToUse { get; set; } = 1;
@@ -42,7 +62,7 @@ else
     {
         IsLoading = true;
         StateHasChanged();
-        Page = await _pageRepository.Get(2);
+        Page = await _pageRepository.GetById(2);
         IsLoading = false;
         StateHasChanged();
     }

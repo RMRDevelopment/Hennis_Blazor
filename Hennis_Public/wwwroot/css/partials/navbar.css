@@ -1,0 +1,38 @@
+﻿.banner {
+    background-color: #7c606b;
+}
+
+.banner a {
+    color: #fff;
+    text-decoration:none;
+}
+
+.navbar {
+    background: #9bafb2;
+}
+
+.navbar-logo img{
+    position:absolute;
+    top:5px;
+    width:125px;
+}
+
+.navbar-brand{
+    font-family:'Old Standard TT', serif;
+    margin-left:135px;
+}
+
+@media(min-width:992px){
+    .navbar-collapse {
+        height:75px;
+        margin-top:-10px;
+    }
+
+    .navbar-collapse .navbar-nav{
+        height:100%;
+    }
+
+    .navbar-collapse .navbar-nav .nav-item a{
+        align-items: flex-end;
+    }
+}

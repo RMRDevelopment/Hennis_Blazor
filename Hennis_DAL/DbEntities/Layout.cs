@@ -3,7 +3,7 @@
 namespace Hennis_DAL.DbEntities
 {
     [Table("Layout")]
-    public class Layout
+    public class Layout : BaseEntityModel
     {
         public int Id { get; set; }
 

@@ -34,7 +34,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             if (Id != 0)
             {
                 Title = "Update";
-                Page = await _pageRepository.Get(Id);
+                Page = await _pageRepository.GetById(Id);
             }
 
             IsLoading = false;
@@ -57,7 +57,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             else
             {
                 
-                await _pageRepository.Update(Page);
+                _pageRepository.Update(Page);
                 await _jsRuntime.SweetAlertSuccess("Page updated successfully");
             }
 

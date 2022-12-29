@@ -7,20 +7,29 @@ using System.Threading.Tasks;
 
 namespace Hennis_DAL.DbEntities
 {
-    [Table("HtmlContent")]
-    public class HtmlContent : BaseEntityModel
+    [Table("HomePageTile")]
+    public class HomePageTile : BaseEntityModel
     {
         public int Id { get; set; }
 
-        public int PageId { get; set; }
+        public int Order { get; set; }
 
-        public string LayoutZoneName { get; set; }
+        public string Title { get; set; }
+
+        public int ImageId { get; set; }
+
+
 
         public string Content { get; set; }
 
+
+
+        public bool Deleted { get; set; }
+
         #region Virtual Properties
-        [ForeignKey("PageId")]
-        public virtual Page Page { get; set; }
+        [ForeignKey("ImageId")]
+        //[NotMapped]
+        public virtual BinaryFile Image { get; set; }
         #endregion
     }
 }

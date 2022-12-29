@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hennis_DAL.DbEntities
 {
-    public class Paystub
+    public class Paystub : BaseEntityModel
     {
         public int Id { get; set; }
 

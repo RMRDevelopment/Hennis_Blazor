@@ -1,0 +1,149 @@
+﻿@page "/homepagetiles"
+@using Hennis_Common
+
+@inject IHomePageTileRepository _repo;
+@inject IFileRepository _fileRepo;
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+<div class="row mt-4">
+    <div class="col-6">
+        Home Page Tiles
+    </div>
+    @*<div class="col-4 offset-2">
+    <a href="homepagetiles/create" class="btn btn-primary form-control">Add New</a>
+    </div>*@
+
+    <div class="col-12 py-2">
+
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/loading.gif" />
+            </div>
+        }
+        else
+        {
+
+
+            <SfGrid DataSource="@Tiles" AllowSorting="true" AllowFiltering="true" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridEvents OnActionComplete="ActionComplete" TValue="HomePageTileDto"></GridEvents>
+                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog">
+                    <Template>
+                        @{
+                            var tile = (context as HomePageTileDto);
+                                    <div>
+                                        <div class="form-row mb-4">
+                                            <div class="form-group col-md-12">
+                                                <label class="e-label-top">Id</label>
+                                                <SfNumericTextBox ID="Id" @bind-Value="@(tile.Id)" ShowSpinButton="false" Enabled="false"></SfNumericTextBox>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="form-group col-md-12">
+                                                <label class="e-label-top">Title</label>
+                                                <SfTextBox ID="Title" @bind-Value="@(tile.Title)"></SfTextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row mb-4">
+                                            <div class="form-group col-md-12">
+                                                <label class="e-label-top">Image</label>
+                                                <SfUploader ID="UploadFiles" AllowedExtensions=".jpg,.png,.jpeg" ChunkSize="500000" AllowMultiple="false" AutoUpload="true">
+                                                    <UploaderAsyncSettings SaveUrl="api/Image/Save" RemoveUrl="api/Image/Remove" />
+                                                    <UploaderEvents Success="SuccessHandler" />
+                                                </SfUploader>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                                <label class="e-label-top">Content</label>
+                                        <SfRichTextEditor Width="500" @bind-Value="@tile.Content">
+                                            <RichTextEditorToolbarSettings Items="@Tools" Type="ToolbarType.Expand" />
+                                                    <RichTextEditorImageSettings  SaveUrl="http://localhost:24147/api/Image/Save" Path="./Images/" />
+                                                </SfRichTextEditor>
+                                               @*<SfTextBox ID="Content" @bind-Value="@(tile.Content)" style="min-height:150px;" Multiline="true"></SfTextBox>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(HomePageTileDto.Id) Width="50" HeaderText="ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true})"></GridColumn>
+                    <GridColumn Field=@nameof(HomePageTileDto.Title) HeaderText="Title" ValidationRules="@(new ValidationRules{ Required=true})" Width="300"></GridColumn>
+                    <GridColumn Field=@nameof(HomePageTileDto.Content) HeaderText="Content"></GridColumn>
+                    <GridColumn Field=@nameof(HomePageTileDto.ImageData) HeaderText="Image" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var tile = (context as HomePageTileDto);
+                                if(tile != null && tile.ImageData != null){
+                                    <div class="image">
+                                        <img class="img-responsive" style="max-height:100px;" src="@($"data:image/png;base64,{Convert.ToBase64String(tile?.ImageData)}")" />
+                                    </div>
+                                }
+                                    
+                            }
+                        </Template>
+                    </GridColumn>
+
+                </GridColumns>
+            </SfGrid>
+        }
+        @*<table class="table table-bordered">
+        <thead>
+        <tr>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Content</th>
+        <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach(var p in Tiles){
+        <tr>
+        <td>@p.Title</td>
+        <td></td>
+        <td></td>
+        <td>
+        <NavLink href="@($"homepagetiles/edit/{p.Id}")" class="btn btn-primary">Edit</NavLink>
+        </td>
+        </tr>
+        }
+        </tbody>
+        </table>*@
+
+    </div>
+</div>
+
+@code {
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+}

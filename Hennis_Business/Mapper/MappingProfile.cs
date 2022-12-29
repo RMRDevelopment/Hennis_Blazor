@@ -21,6 +21,12 @@ namespace Hennis_Business.Mapper
             CreateMap<Paystub, PaystubDto>()
                 .ForMember(dest => dest.FileData, opt => opt.MapFrom(src => src.File.Bytes))
                 .ReverseMap();
+            CreateMap<HomePageTile, HomePageTileDto>()
+                .ForMember(dest => dest.ImageData, opt => opt.MapFrom(src => src.Image.Bytes))
+                .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.Image.FileName));
+
+            CreateMap<HomePageTileDto, HomePageTile>();
         }
+
     }
 }

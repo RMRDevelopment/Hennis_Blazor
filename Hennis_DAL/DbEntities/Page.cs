@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Hennis_DAL.DbEntities
 {
     [Table("Page")]
-    public class Page
+    public class Page : BaseEntityModel
     {
         public int Id { get; set; }
 
