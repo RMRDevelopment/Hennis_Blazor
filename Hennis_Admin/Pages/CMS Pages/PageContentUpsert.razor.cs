@@ -52,7 +52,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             {
                 HtmlContent.PageId = PageId;
             }
-            Page = await _pageRepository.GetById(PageId);
+            Page = await _pageRepository.GetWithZones(PageId);
             LayoutZones = Page.Layout.LayoutZones;
 
             IsLoading = false;
@@ -72,7 +72,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
             else
             {
 
-                _htmlContentRepository.Update(HtmlContent);
+                await _htmlContentRepository.Update(HtmlContent);
                 await _htmlContentRepository.Save();
                 await _jsRuntime.SweetAlertSuccess("Page updated successfully");
             }

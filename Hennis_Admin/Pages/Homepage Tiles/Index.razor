@@ -29,7 +29,7 @@
             <SfGrid DataSource="@Tiles" AllowSorting="true" AllowFiltering="true" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridEvents OnActionComplete="ActionComplete" TValue="HomePageTileDto"></GridEvents>
-                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog">
+                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.Grids.EditMode.Dialog">
                     <Template>
                         @{
                             var tile = (context as HomePageTileDto);

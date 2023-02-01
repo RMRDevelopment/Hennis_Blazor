@@ -1,0 +1,14 @@
+﻿footer{
+    background-color:#9bafb2;
+    color:#fff;
+    padding:30px 0;
+}
+
+    footer h4 {
+        margin-bottom: 2px;
+        font-family: 'Old Standard TT', serif;
+    }
+
+footer address{
+    color:#fff;
+}

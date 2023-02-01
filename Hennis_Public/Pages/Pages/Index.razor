@@ -1,0 +1,59 @@
+﻿@page "/"
+@inject IPageRepository _pageRepository
+@using Hennis_Models.Dto
+
+<PageTitle>Index</PageTitle>
+
+
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/loading.gif" />
+    </div>
+}
+else
+{
+
+    <!-- Start Video Banner-->
+
+    <div class="mb-5">
+        <img src="/images/videobg.jpg"/>
+    </div>
+
+    <!-- End Video Banner-->
+    
+    <!-- Start Home Page Tiles-->
+    <Hennis_Public.Pages.Components._HomePageTiles></Hennis_Public.Pages.Components._HomePageTiles>
+    <!-- End Home Page Tiles -->
+
+   
+}
+
+
+
+@code {
+    public int LayoutToUse { get; set; } = 1;
+
+    public PageDto Page { get; set; } = new();
+
+    public bool IsLoading { get; set; } = true;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            LoadPageContent();
+        }
+    }
+
+    private async Task LoadPageContent()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Page = await _pageRepository.GetById(2);
+        IsLoading = false;
+        StateHasChanged();
+    }
+}
+

@@ -1,0 +1,86 @@
+﻿@using Hennis_Models.Dto
+@inject IJSRuntime _jsRuntime;
+@inject IStaffImageRepository _repo;
+
+<style>
+    .staff-container h4 {
+        color: #cc1c70;
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .staff-container img {
+        text-shadow: 1px 1px #000;
+    }
+</style>
+
+<div class="staff-container offset-md-1 col-md-10">
+    <div class="row">
+        @foreach (var item in Tiles)
+        {
+            var spacingClass = counter == 0 ? "" : "";
+            counter++;
+            <div class="@spacingClass col-md-3 text-center">
+                <img class="img-responsive" src="@($"data:image/png;base64,{Convert.ToBase64String(item?.ImageData)}")" />
+                <h5>@item.Name</h5>
+                <p>@item.Title</p>
+                <button class="link-primary" @onclick="()=>ShowStaffModal(item)">About</button>
+            </div>
+
+        }
+    </div>
+</div>
+
+<Hennis_Public.Shared.Modals._StaffImageModal StaffImage="SelectedStaffImage"></Hennis_Public.Shared.Modals._StaffImageModal>
+
+
+
+@code {
+    public IEnumerable<StaffImageDto> Tiles { get; set; } = new List<StaffImageDto>();
+    public StaffImageDto SelectedStaffImage { get; set; } = new StaffImageDto();
+    [Parameter]
+    public int PageId { get; set; }
+
+    public int counter { get; set; } = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Tiles = await _repo.GetAllWithImagesAsync(true);
+            Tiles = Tiles.Where(x => x.PageId == PageId).ToList();
+            StateHasChanged();
+        }
+    }
+
+    private bool Visibility { get; set; } = true;
+    private bool ShowButton { get; set; } = false;
+    private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+    }
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+    }
+    private void AboutBtnClick()
+    {
+        this.Visibility = true;
+
+    }
+    private void DlgButtonClick()
+    {
+        this.Visibility = false;
+    }
+
+    private async void ShowStaffModal(StaffImageDto image)
+    {
+        //Get to load media
+        SelectedStaffImage = image;
+        StateHasChanged();
+        await _jsRuntime.InvokeVoidAsync("ShowStaffImageModal");
+    }
+    private async void HideStaffModal(){
+        await _jsRuntime.InvokeVoidAsync("HideStaffImageModal");
+    }
+}

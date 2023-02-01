@@ -11,6 +11,8 @@ namespace Hennis_Business.Repository.Interface
     public interface IHtmlContentRepository : IGenericRepository<HtmlContent,HtmlContentDto>
     {
         public Task<IEnumerable<HtmlContentDto>> GetByPageId(int pageId);
+
+        public Task<HtmlContentDto> Update(HtmlContentDto model);
     }
 
 }

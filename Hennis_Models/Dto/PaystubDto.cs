@@ -16,5 +16,9 @@ namespace Hennis_Models.Dto
         public byte[] FileData { get; set; }
 
         public string FileName { get; set; }
+
+        public string BinaryFileGuid { get; set; }
+
+        public DateTime? PaystubDate { get; set; }
     }
 }

@@ -1,0 +1,52 @@
+﻿@using Hennis_Models.Dto
+@inject IStaffImageRepository _repo;
+
+<style>
+    .staff-container h4{
+        color:#cc1c70;
+        margin-top:1px;
+        margin-bottom:1px;
+    }
+    .staff-container img{
+        text-shadow:1px 1px #000;
+    }
+</style>
+
+<div class="staff-container offset-md-1 col-md-10">
+        <div class="row">
+        @foreach (var item in Tiles)
+        {
+            var spacingClass = counter == 0 ? "" : "";
+            counter++;
+            <div class="@spacingClass col-md-3 text-center">
+                <img class="img-responsive" src="@($"data:image/png;base64,{Convert.ToBase64String(item?.ImageData)}")" />
+                <h5>@item.Name</h5>
+                <p>@item.Title</p>
+                    
+                        <p>@item.Location</p>
+                    
+            </div>
+
+        }
+    </div>
+</div>
+
+
+
+@code {
+    public IEnumerable<StaffImageDto> Tiles { get; set; } = new List<StaffImageDto>();
+    [Parameter]
+    public int PageId { get; set; }
+
+    public int counter { get; set; } = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Tiles = await _repo.GetAllWithImagesAsync(true);
+            Tiles = Tiles.Where(x => x.PageId == PageId).ToList();
+            StateHasChanged();
+        }
+    }
+}

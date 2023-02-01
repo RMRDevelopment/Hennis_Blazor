@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Hennis_Business.Helper;
 using Hennis_Business.Repository.Interface;
 using Hennis_DAL.Data;
@@ -62,6 +63,11 @@ namespace Hennis_Business.Repository
             }
         }
 
+        public async Task<IEnumerable<PaystubDto>> GetAllByUserId(string userid)
+        {
+            return await _context.Paystubs.Where(x => x.UserId == userid).OrderByDescending(x => x.CreatedDateTime).ProjectTo<PaystubDto>(_mapper.ConfigurationProvider).ToListAsync();
+        }
+
         public async Task<BinaryFile> GetBinaryFileById(int id)
         {
             return await _context.BinaryFiles.FindAsync(id);
@@ -77,7 +83,10 @@ namespace Hennis_Business.Repository
             throw new NotImplementedException();
         }
 
-    
+        public async Task<IEnumerable<PaystubDto>> GetPaystubsByFullName(string fullName)
+        {
+            return await _context.Paystubs.Include(x => x.User).Include(x => x.File).Where(x => x.User.FirstName + x.User.LastName == fullName).OrderByDescending(x => x.CreatedDateTime).ProjectTo<PaystubDto>(_mapper.ConfigurationProvider).ToListAsync();
+        }
 
         public async Task<bool> PaystubExistsForEmployee(string employeeId, DateTime payDate)
         {

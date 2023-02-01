@@ -13,15 +13,22 @@ namespace Hennis_DAL.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        //public ApplicationDbContext()
-        //{
+        public ApplicationDbContext()
+        {
 
-        //}
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            if (!options.IsConfigured)
+            {
+                options.UseSqlServer("Data source=newgw.rmrdevelopment.com;Initial Catalog=HennisBlazor;User=sa;Password=COM214me_nts;MultipleActiveResultSets=true;Max Pool Size=100;");
+            }
+        }
 
 
 
@@ -88,6 +95,8 @@ namespace Hennis_DAL.Data
         public DbSet<BinaryFile> BinaryFiles { get; set; }
 
         public DbSet<HomePageTile> HomePageTiles { get; set; }
+
+        public DbSet<StaffImage> StaffImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -35,5 +35,10 @@ namespace Hennis_Business.Repository
             }
             return list;
         }
+
+        public async Task<int> GetImageId(int id)
+        {
+            return await _context.HomePageTiles.Where(x => x.Id == id).Select(x => x.ImageId).FirstOrDefaultAsync();
+        }
     }
 }

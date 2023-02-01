@@ -1,0 +1,33 @@
+﻿@using Hennis_Models.Dto
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="detailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">About @StaffImage?.Name</h5>
+               
+            </div>
+            <div class="modal-body">
+               @StaffImage?.Bio
+            </div>
+            
+                 <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<bool> ConfirmationChanged{get;set;}
+    [Parameter]
+    public bool IsParentComponentProcessing{get;set;}
+    [Parameter]
+    public StaffImageDto StaffImage {get;set;}
+
+}

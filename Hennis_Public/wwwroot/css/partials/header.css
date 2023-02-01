@@ -1,0 +1,12 @@
+﻿
+.header-img-container {
+    position: relative;
+    top: -90px;
+    z-index: 1;
+    float:right;
+}
+
+.overlay {
+    background-color: rgba(0,0,0,.7);
+    width: 100%;
+}

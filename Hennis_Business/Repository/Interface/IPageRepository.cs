@@ -12,6 +12,14 @@ namespace Hennis_Business.Repository.Interface
     {
         
         public Task<PageDto> Get(string name);
+        public Task<PageDto> Get(int id);
+        Task<int?> GetImageId(int id);
+
+        IEnumerable<PageDto> GetAllWithImagesAsync(bool removeDeleted = false);
+
+        Task<PageDto> GetWithZones(int id);
+
+        Task<PageDto> Update(PageDto model);
 
     }
 

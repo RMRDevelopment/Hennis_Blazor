@@ -46,7 +46,13 @@ namespace Hennis_Admin.Pages.Homepage_Tiles
                 }
                 else
                 {
-                    _repo.Update(args.Data);
+                    if (args.Data.ImageId == 0)
+                    {
+                        var imageId = await _repo.GetImageId(args.Data.Id);
+                        args.Data.ImageId = imageId;
+                    }
+                    
+                    _repo.Update(args.Data, new Hennis_DAL.DbEntities.HomePageTile());
                     await _repo.Save();
                 }
             }

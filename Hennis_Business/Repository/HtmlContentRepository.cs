@@ -26,5 +26,19 @@ namespace Hennis_Business.Repository
             return _mapper.Map<IEnumerable<HtmlContent>, IEnumerable<HtmlContentDto>>(_context.HtmlContents.Where(x => x.PageId == pageId));
         }
 
+        public async Task<HtmlContentDto> Update(HtmlContentDto model)
+        {
+            var obj = await _context.HtmlContents.FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (obj != null)
+            {
+                obj.Content = model.Content;
+                obj.LayoutZoneName = model.LayoutZoneName;
+                
+                _context.HtmlContents.Update(obj);
+                await _context.SaveChangesAsync();
+                return _mapper.Map<HtmlContentDto>(obj);
+            }
+            return model;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Hennis_Business.Repository.Interface
         Task<IEnumerable<Dto>> GetAll();
         Task<Dto> GetById(object id);
         Task Insert(Dto obj);
-        void Update(Dto obj);
+        void Update(Dto obj,T dest);
         Task Delete(object id);
         Task Save();
 

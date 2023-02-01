@@ -12,42 +12,84 @@
         <a href="pages/create" class="btn btn-primary form-control">Add New Page</a>
     </div>
 
-    <div class="col-12 py-2">
-        @if (Pages.Any()){
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Parent Page</th>
-                        <th>Show In Menu?</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var p in Pages){
-                        <tr>
-                            <td>@p.Name</td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <NavLink href="@($"pages/edit/{p.Id}")" class="btn btn-primary">Edit</NavLink>
-                                <NavLink href="@($"pages/content/{p.Id}")" class="btn btn-success">Content</NavLink>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else{
-            if (IsLoading){
-                <div class="text-center">
-                    <img src="/images/loading.gif"/>
-                    </div>
-            } else{
-                <p>No pages found</p>
-            }
-        }
+    <Syncfusion.Blazor.TreeGrid.SfTreeGrid EnableCollapseAll="true" DataSource="@TreeData" IdMapping="Id" ParentIdMapping="ParentId" TreeColumnIndex="0" >
+            <Syncfusion.Blazor.TreeGrid.TreeGridColumns>
+                <Syncfusion.Blazor.TreeGrid.TreeGridColumn Field="Id" HeaderText="Id" />
+                <Syncfusion.Blazor.TreeGrid.TreeGridColumn Field="Name" HeaderText="Name" />
+                <Syncfusion.Blazor.TreeGrid.TreeGridColumn Field="Title" HeaderText="Title" />
+                <Syncfusion.Blazor.TreeGrid.TreeGridColumn Field="Image" HeaderText="Image">
+                    <Template>
+                        @{
+                            var page = (context as TreeObject);
+                            <div>
+                                @if (page?.ImageData != null)
+                                {
+                                    <img class="img-responsive" style="max-height:100px;" src="@($"data:image/png;base64,{Convert.ToBase64String(page?.ImageData)}")" />
+                                }
+                            </div>
+                        }
+                    </Template>
+                </Syncfusion.Blazor.TreeGrid.TreeGridColumn>
+                <Syncfusion.Blazor.TreeGrid.TreeGridColumn Field="Id" HeaderText="Actions">
+                    <Template>
+                        @{
+                            var page = (context as TreeObject);
+                            <div>
+                                <NavLink href="@($"pages/edit/{page?.Id}")" class="btn btn-primary">Edit</NavLink>
+                                <NavLink href="@($"pages/content/{page?.Id}")" class="btn btn-success">Content</NavLink>
+                            </div>
+                        }
+                    </Template>
+                </Syncfusion.Blazor.TreeGrid.TreeGridColumn>
+            </Syncfusion.Blazor.TreeGrid.TreeGridColumns>
+
+    </Syncfusion.Blazor.TreeGrid.SfTreeGrid>
+
+    @*<div class="col-12 py-2">
+    @if (Pages.Any()){
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th>Name</th>
+    <th>Title</th>
+    <th>Image</th>
+    <th>Parent Page</th>
+    <th>Show In Menu?</th>
+
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var p in Pages){
+    <tr>
+    <td>@p.Name</td>
+    <td>@p.Title</td>
+    <td>
+    @if(p.ImageData != null){
+    <img class="img-responsive" style="max-height:100px;" src="@($"data:image/png;base64,{Convert.ToBase64String(p?.ImageData)}")" />
+    }
+    </td>
+    <td>@p.ParentPageName</td>
+    <td></td>
+    <td>
+    <NavLink href="@($"pages/edit/{p.Id}")" class="btn btn-primary">Edit</NavLink>
+    <NavLink href="@($"pages/content/{p.Id}")" class="btn btn-success">Content</NavLink>
+    </td>
+    </tr>
+    }
+    </tbody>
+    </table>
+    }
+    else{
+    if (IsLoading){
+    <div class="text-center">
+    <img src="/images/loading.gif"/>
     </div>
+    } else{
+    <p>No pages found</p>
+    }
+    }
+    </div>*@
 </div>
 
 @code {

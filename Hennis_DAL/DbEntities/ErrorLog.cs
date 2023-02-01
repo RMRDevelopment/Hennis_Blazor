@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Hennis_DAL.DbEntities
 {
     [Table("ErrorLog")]
-    public class ErrorLog
+    public class ErrorLog : BaseEntityModel
     {
         public int Id { get; set; }
 

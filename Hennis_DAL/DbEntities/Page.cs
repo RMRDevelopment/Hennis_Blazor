@@ -17,13 +17,25 @@ namespace Hennis_DAL.DbEntities
 
         public int Order { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
+
+        public string? Title { get; set; }
+
+        public int? ImageId { get; set; }
+
+        public int? ParentPageId { get; set; }
 
         #region Virtual Properties
         [ForeignKey("LayoutId")]
-        public virtual Layout Layout { get; set; }
+        public virtual Layout? Layout { get; set; }
 
-        public virtual ICollection<HtmlContent> HtmlContents { get; set; }
+        public virtual ICollection<HtmlContent> HtmlContents { get; set; } = new List<HtmlContent>();
+
+        [ForeignKey("ImageId")]
+        public virtual BinaryFile? Image { get; set; }
+
+        [ForeignKey("ParentPageId")]
+        public virtual Page? ParentPage { get; set; }
         #endregion
 
 

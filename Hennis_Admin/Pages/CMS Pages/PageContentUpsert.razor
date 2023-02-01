@@ -47,8 +47,10 @@
 
                     <hr/>
 
-                    <SfRichTextEditor @bind-Value="@HtmlContent.Content">
-                    <RichTextEditorImageSettings SaveUrl="http://localhost:24147/api/Image/Save" Path="./Images/" />
+                    <SfRichTextEditor MaxLength="Int32.MaxValue" @bind-Value="@HtmlContent.Content">
+                        <RichTextEditorImageSettings SaveUrl="http://hennispublic.rmrdevelopment.com/api/Image/Save" Path="./Images/" />
+                    <RichTextEditorEvents ValueChange="@ValueChangeHandler">
+                    </RichTextEditorEvents>
                     </SfRichTextEditor>
 
 

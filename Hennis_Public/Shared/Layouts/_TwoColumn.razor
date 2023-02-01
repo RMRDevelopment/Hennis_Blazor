@@ -1,4 +1,10 @@
 ﻿@using Hennis_Models.Dto
+
+<!-- Heading Section -->
+<Hennis_Public.Pages.Components._Heading></Hennis_Public.Pages.Components._Heading>
+<!-- End Heading Section -->
+
+
 <div class="row">
     @*Feature Zone*@
     @foreach (var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "feature").ToList())

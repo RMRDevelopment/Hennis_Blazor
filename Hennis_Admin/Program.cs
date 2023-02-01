@@ -54,6 +54,7 @@ builder.Services.AddScoped<IPaystubService, PaystubService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IHomePageTileRepository, HomePageTileRepository>();
+builder.Services.AddScoped<IStaffImageRepository, StaffImageRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();

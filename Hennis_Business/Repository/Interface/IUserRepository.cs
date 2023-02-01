@@ -11,5 +11,8 @@ namespace Hennis_Business.Repository.Interface
     {
         Task<ApplicationUser> GetUserByName(string firstname, string lastname);
         Task<ApplicationUser> GetUserByNameAndLocation(string firstname, string lastname,string location);
+        Task<IEnumerable<ApplicationUser>> GetAll();
+
+        Task<ApplicationUser> GetUserByUsername(string username);
     }
 }

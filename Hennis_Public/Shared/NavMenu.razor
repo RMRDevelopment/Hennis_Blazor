@@ -5,7 +5,7 @@
 				<a href="#"><i class="fa-brands fa-facebook"></i></a>
 			</div>
 			<div class="p-2">
-				<a href="#">Staff Login</a>
+				<a href="http://hennisbackoffice.rmrdevelopment.com">Staff Login</a>
 			</div>
 		</div>
 
@@ -29,18 +29,94 @@
 		</button>
 		<div class="collapse navbar-collapse justify-content-end"  id="navbarSupportedContent">
 		  <ul class="navbar-nav" >
-			<li class="nav-item">
-			  <a class="nav-link h5 active" aria-current="page" href="#">Home</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link h5" href="#">Link 1</a>
-			</li>			
+				<li class="nav-item @GetActive("", NavLinkMatch.All)">
+					<NavLink class="nav-link" href="" Match="NavLinkMatch.All">Home</NavLink>
+				</li>
+			
+				<li class="nav-item dropdown @GetActive("/AboutUs", NavLinkMatch.All)">
+					<a class="nav-link dropdown-toggle"accesskey="$0" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+						<ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+							<li>
+								<NavLink class="dropdown-item" href="/HennisHistory">Hennis History</NavLink>
+							</li>
+							<li>
+								<NavLink class="dropdown-item" href="/WhatWeOffer">What We Offer</NavLink>
+							</li>
+						<li>
+							<NavLink class="dropdown-item" href="/MessageFromDavidHennis">Message from David Hennis</NavLink>
+						</li>
+						</ul>
+					
+				</li>
+				<li class="nav-item dropdown @GetActive("/Services", NavLinkMatch.All)">
+					<a class="nav-link dropdown-toggle"accesskey="$0" href="#" id="serviceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
+						<ul class="dropdown-menu" aria-labelledby="serviceDropdown">
+							<li>
+								<NavLink class="dropdown-item" href="/DiningServices">Dining Services</NavLink>
+							</li>
+							<li>
+								<NavLink class="dropdown-item" href="/CaringCommitment">Caring Commitment</NavLink>
+							</li>
+						
+						</ul>
+					
+				</li>
+				<li class="nav-item dropdown @GetActive("/Information", NavLinkMatch.All)">
+					<a class="nav-link dropdown-toggle" accesskey="$0" href="#" id="informationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Information</a>
+					<ul class="dropdown-menu" aria-labelledby="informationDropdown">
+						<li>
+							<NavLink class="dropdown-item" href="/Newsletters">Newsletters</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/VolunteerProgram">Volunteer Program</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/OurStaff">Our Staff</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/CareerOpportunities">Career Opportunities</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/Tour">Tour</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/PlanAVisit">Plan a Visit</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/HennisInTheCommunity">Hennis in the Community</NavLink>
+						</li>
+
+					</ul>
+
+				</li>
+				<li class="nav-item dropdown @GetActive("/Information", NavLinkMatch.All)">
+					<a class="nav-link dropdown-toggle" accesskey="$0" href="#" id="calendarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Calendars</a>
+					<ul class="dropdown-menu" aria-labelledby="calendarDropdown">
+						<li>
+							<NavLink class="dropdown-item" href="/ResidentHappenings">Resident Happenings</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/EmployeeHappenings">Employee Happenings</NavLink>
+						</li>
+						<li>
+							<NavLink class="dropdown-item" href="/ActivityCalendar">Activity Calendar</NavLink>
+						</li>
+						
+					</ul>
+
+				</li>
+				<li class="nav-item @GetActive("/Contact", NavLinkMatch.All)">
+					<NavLink class="nav-link" href="/Contact" Match="NavLinkMatch.All">Contact</NavLink>
+				</li>
+				
 		  </ul>		  
 		</div>
 	  </div>
 </nav>
 
 @code {
+	[Inject]
+	NavigationManager NavigationManager { get; set; }
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -49,4 +125,12 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+	bool IsActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix)
+	{
+		var relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).ToLower();
+		return navLinkMatch == NavLinkMatch.All ? relativePath == href.ToLower() : relativePath.StartsWith(href.ToLower());
+	}
+
+	string GetActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix) => IsActive(href, navLinkMatch) ? "active" : "";
 }

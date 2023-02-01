@@ -18,5 +18,6 @@ namespace Hennis_Business.Repository.Interface
         Task<BinaryFile> GetFileByName(string name);
 
         Task<BinaryFile> Create(BinaryFile file);
+
     }
 }

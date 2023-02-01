@@ -14,13 +14,31 @@
 .navbar-logo img{
     position:absolute;
     top:5px;
-    width:125px;
+    width:100px;
 }
 
 .navbar-brand{
     font-family:'Old Standard TT', serif;
     margin-left:135px;
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-item .dropdown-menu .dropdown-item {
+    color: #555;
+}
+.nav-item .dropdown-menu .dropdown-item:hover {
+    color: #000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    background-color: rgba(255,255,255,.9);
+    border: none;
+}
+
 
 @media(min-width:992px){
     .navbar-collapse {

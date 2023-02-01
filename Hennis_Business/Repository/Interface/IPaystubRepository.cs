@@ -16,5 +16,7 @@ namespace Hennis_Business.Repository.Interface
         Task<IEnumerable<PaystubDto>> GetByDateAndUserId(DateTime date, int UserId);
         Task<bool> PaystubExistsForEmployee(string employeeId, DateTime payDate);
 
+        Task<IEnumerable<PaystubDto>> GetAllByUserId(string userid);
+        Task<IEnumerable<PaystubDto>> GetPaystubsByFullName(string fullName);
     }
 }

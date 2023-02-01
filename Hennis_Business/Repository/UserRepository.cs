@@ -18,6 +18,12 @@ namespace Hennis_Business.Repository
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAll()
+        {
+            return await _context.ApplicationUsers.OrderBy(x => x.LastName).ToListAsync();
+        }
+
         public async Task<ApplicationUser> GetUserByName(string firstname, string lastname)
         {
             var user = await _context.ApplicationUsers.Where(x => x.FirstName == firstname && x.LastName == lastname).FirstOrDefaultAsync();
@@ -30,6 +36,11 @@ namespace Hennis_Business.Repository
             var user = await _context.ApplicationUsers.Where(x => x.FirstName == firstname && x.LastName == lastname && x.Location == location).FirstOrDefaultAsync();
 
             return user;
+        }
+
+        public async Task<ApplicationUser> GetUserByUsername(string username)
+        {
+            return await _context.ApplicationUsers.Where(x => x.UserName == username).FirstOrDefaultAsync();
         }
     }
 }

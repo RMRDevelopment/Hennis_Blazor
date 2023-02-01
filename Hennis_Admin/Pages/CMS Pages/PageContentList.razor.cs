@@ -22,7 +22,7 @@ namespace Hennis_Admin.Pages.CMS_Pages
         {
             IsLoading = true;
             StateHasChanged();
-            Page = await _pageRepository.GetById(PageId);
+            Page = await _pageRepository.GetWithZones(PageId);
             IsLoading = false;
             StateHasChanged();
         }

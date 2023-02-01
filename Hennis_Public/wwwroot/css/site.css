@@ -1,5 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 @import url("partials/navbar.css");
+@import url("partials/header.css");
+@import url("partials/footer.css");
 
 html, body {
     font-family: 'Nunito Sans', Helvetica, Arial, sans-serif;
@@ -90,4 +92,33 @@ a, .btn-link {
     position:relative;
     top:15px;
     z-index:1;
+}
+
+.height-75{
+    height:75px;
+}
+
+.height-200{
+    height:300px;
+}
+
+h3, h4,h5,h6 {
+    color: #b1215e;
+}
+
+.link-primary {
+    color: #7c606b;
+    border: none;
+    background: none;
+    margin-top:0px;
+    margin-bottom:10px;
+}
+
+.staff-container h5{
+    margin-bottom:0;
+    margin-top:2px;
+}
+
+.staff-container p{
+    margin-bottom:0;
 }

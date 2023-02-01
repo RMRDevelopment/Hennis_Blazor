@@ -1,0 +1,99 @@
+﻿@page "/paystubs"
+@using Hennis_Common
+@inject IUserRepository userRepo;
+@inject IPaystubRepository paystubRepo;
+@inject AuthenticationStateProvider auth;
+<h3>Paystubs</h3>
+
+<AuthorizeView Roles="@SD.Role_AllAdminRoles">
+    <p>Hello @context.User.Identity.Name, You can use the filter below to show paystubs for the employee you select.</p>
+    <label>Select Employee</label>
+    <SfAutoComplete TValue="string" TItem="ApplicationUser" DataSource="@Users">
+        <AutoCompleteEvents TItem="ApplicationUser" TValue="string" ValueChange="@ValueChangeHandler"></AutoCompleteEvents>
+        <AutoCompleteTemplates TItem="ApplicationUser">
+
+            <ItemTemplate Context="anotherContext">
+
+
+                <div> @((anotherContext as ApplicationUser).FirstName) @((anotherContext as ApplicationUser).LastName) </div>
+
+            </ItemTemplate>
+        </AutoCompleteTemplates>
+        <AutoCompleteFieldSettings Value="FullName" />
+    </SfAutoComplete>
+</AuthorizeView>
+
+@if (PaystubsLoaded)
+{
+    <SfGrid DataSource="@EmployeePaystubs" AllowFiltering="true" AllowSorting="true" AllowPaging="true">
+        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+
+        <GridColumns>
+            <GridColumn Field=@nameof(PaystubDto.FileName) HeaderText="Paystub"></GridColumn>
+            <GridColumn Format="d" Type="ColumnType.Date" Field=@nameof(PaystubDto.PaystubDate) HeaderText="Pay Date">
+
+            </GridColumn>
+            <GridColumn AllowFiltering="false" AllowSorting="false" HeaderText="Paystub" Field=@nameof(PaystubDto.BinaryFileGuid)>
+                <Template>
+                    @{
+                        var paystub = (context as PaystubDto);
+                        <div>
+                            <a target="blank" href="/api/File/DownloadFile?guid=@paystub.BinaryFileGuid" class="btn btn-primary">View</a>
+                        </div>
+                    }
+                </Template>
+            </GridColumn>
+        </GridColumns>
+    </SfGrid>
+}
+
+
+
+@code {
+    public List<ApplicationUser> Users { get; set; }
+    public IEnumerable<PaystubDto> EmployeePaystubs { get; set; }
+    public bool IsLoading { get; set; } = false;
+    public bool PaystubsLoaded { get; set; } = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var user = await auth.GetAuthenticationStateAsync();
+            if (user.User != null)
+            {
+
+
+                if (user.User.IsInRole(SD.Role_User))
+                {
+                    
+                    var dbUser = await userRepo.GetUserByUsername(user.User.Identity.Name);
+                    await LoadPaystubs(dbUser.FullName);
+                }
+            }
+            else
+            {
+                IsLoading = false;
+                // start with just loading all users
+                var result = await userRepo.GetAll();
+                Users = result.ToList();
+
+                StateHasChanged();
+            }
+        }
+
+    }
+
+    private async Task LoadPaystubs(string id)
+    {
+        PaystubsLoaded = false;
+        StateHasChanged();
+        EmployeePaystubs = new List<PaystubDto>();
+        EmployeePaystubs = await paystubRepo.GetPaystubsByFullName(id);
+        PaystubsLoaded = true;
+        StateHasChanged();
+    }
+    private void ValueChangeHandler(ChangeEventArgs<string, ApplicationUser> args)
+    {
+        LoadPaystubs(args.Value);
+    }
+}

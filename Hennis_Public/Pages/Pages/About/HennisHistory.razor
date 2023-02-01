@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/HennisHistory"
 @inject IPageRepository _pageRepository
 @using Hennis_Models.Dto
 
@@ -15,18 +15,8 @@
 else
 {
 
-    <!-- Start Video Banner-->
-
-    <div class="mb-5">
-        <img src="/images/videobg.jpg"/>
-    </div>
-
-    <!-- End Video Banner-->
     
-    <!-- Start Home Page Tiles-->
-    <Hennis_Public.Pages.Components._HomePageTiles></Hennis_Public.Pages.Components._HomePageTiles>
-    <!-- End Home Page Tiles -->
-
+    
     <div class="container">
     <!-- section for text-->
     @if (Page.LayoutId == 1)
@@ -62,7 +52,7 @@ else
     {
         IsLoading = true;
         StateHasChanged();
-        Page = await _pageRepository.GetById(2);
+        Page = await _pageRepository.Get(3);
         IsLoading = false;
         StateHasChanged();
     }

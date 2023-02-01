@@ -1,21 +1,34 @@
 ﻿@using Hennis_Models.Dto
-<div class="row">
-    @*Feature Zone*@
-    @foreach(var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "feature").ToList()){
-        <div class="col-12">
-            <div>@((MarkupString)@content.Content)</div>
+
+<!-- Heading Section -->
+<Hennis_Public.Pages.Components._Heading Page="Page"></Hennis_Public.Pages.Components._Heading>
+<!-- End Heading Section -->
+
+@*<div class="container">*@
+    <div class="offset-md-1 col-md-10">
+        <div class="row">
+            @*Feature Zone*@
+            @foreach (var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "feature").ToList())
+            {
+                <div class="col-12">
+                    <div>@((MarkupString)@content.Content)</div>
+                </div>
+            }
+            @*End Feature Zone*@
+            @*Zone A*@
+            @foreach (var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "zonea").ToList())
+            {
+                <div class="col-12">
+                    <div>@((MarkupString)@content.Content)</div>
+                </div>
+            }
+            @*End Zone A*@
+
         </div>
-    }
-    @*End Feature Zone*@
-    @*Zone A*@
-    @foreach(var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "zonea").ToList()){
-        <div class="col-12">
-            <div>@((MarkupString)@content.Content)</div>
-        </div>
-    }
-    @*End Zone A*@
-   
-</div>
+    </div>
+@*</div>*@
+
+
 
 @code {
     [Parameter]

@@ -11,6 +11,7 @@ namespace Hennis_Business.Repository.Interface
     public interface IHomePageTileRepository : IGenericRepository<HomePageTile, HomePageTileDto>
     {
         Task<IEnumerable<HomePageTileDto>> GetAllWithImagesAsync(bool removeDeleted = false);
+        Task<int> GetImageId(int id);
     }
 
 }

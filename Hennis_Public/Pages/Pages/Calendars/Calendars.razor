@@ -1,0 +1,60 @@
+﻿@page "/Calendars"
+@inject IPageRepository _pageRepository
+@using Hennis_Models.Dto
+
+<PageTitle>Index</PageTitle>
+
+
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/loading.gif" />
+    </div>
+}
+else
+{
+
+    
+    
+    <div class="container">
+    <!-- section for text-->
+    @if (Page.LayoutId == 1)
+    {
+        <Hennis_Public.Shared.Layouts._FullWidth Page="Page"></Hennis_Public.Shared.Layouts._FullWidth>
+    }
+    else
+    {
+        <Hennis_Public.Shared.Layouts._TwoColumn Page="Page"></Hennis_Public.Shared.Layouts._TwoColumn>
+    }
+    <!-- end text section-->
+    </div>
+}
+
+
+
+@code {
+    public int LayoutToUse { get; set; } = 1;
+
+    public PageDto Page { get; set; } = new();
+
+    public bool IsLoading { get; set; } = true;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            LoadPageContent();
+        }
+    }
+
+    private async Task LoadPageContent()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Page = await _pageRepository.Get(8);
+        IsLoading = false;
+        StateHasChanged();
+    }
+}
+

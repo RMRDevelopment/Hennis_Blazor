@@ -37,32 +37,78 @@ namespace Hennis_Business.Repository
 
         public async Task<IEnumerable<Dto>> GetAll()
         {
-            var list = await table.ToListAsync();
-            return _mapper.Map<IEnumerable<T>, IEnumerable<Dto>>(list);
+            try
+            {
+                var list = await table.ToListAsync();
+                return _mapper.Map<IEnumerable<T>, IEnumerable<Dto>>(list);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<Dto> GetById(object id)
         {
-            var record = await table.FindAsync(id);
-            return _mapper.Map<Dto>(record);
+            try
+            {
+                var record = await table.FindAsync(id);
+                return _mapper.Map<Dto>(record);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         public async Task Insert(Dto obj)
         {
-            var model = _mapper.Map<T>(obj);
-            await table.AddAsync(model);
+            try
+            {
+                var model = _mapper.Map<T>(obj);
+                await table.AddAsync(model);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
         }
 
         public async Task Save()
         {
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
-        public void Update(Dto obj)
+        public void Update(Dto obj, T dest)
         {
-            var model = _mapper.Map<T>(obj);
-            table.Attach(model);
-            _context.Entry(model).State = EntityState.Modified;
+            try
+            {
+                //var model = _mapper.Map<T>(obj);
+                MapValidValues(obj, dest);
+                table.Attach(dest);
+                _context.Entry(dest).State = EntityState.Modified;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<object> Create(Dto obj)
@@ -84,5 +130,27 @@ namespace Hennis_Business.Repository
             return result;
 
         }
+
+        #region Helper Methods
+        public static U MapValidValues<U, T>(T source, U destination)
+        {
+            // Go through all fields of source, if a value is not null, overwrite value on destination field.
+            foreach (var propertyName in source.GetType().GetProperties().Where(p => !p.PropertyType.IsGenericType).Select(p => p.Name))
+            {
+                var value = source.GetType().GetProperty(propertyName).GetValue(source, null);
+                if (value != null && value.GetType() != typeof(byte[]) && (value.GetType() != typeof(DateTime) || (value.GetType() == typeof(DateTime) && (DateTime)value != DateTime.MinValue)))
+                {
+                    var exists = destination.GetType().GetProperty(propertyName);
+                    if (exists != null)
+                    {
+                        destination.GetType().GetProperty(propertyName).SetValue(destination, value, null);
+                    }
+
+                }
+            }
+
+            return destination;
+        }
+        #endregion
     }
 }
