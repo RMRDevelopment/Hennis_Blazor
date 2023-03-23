@@ -5,16 +5,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Hennis Care Centre of Bolivar and Dover</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="~/" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Old+Standard+TT" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans" />
    
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
     <link href="_content/Syncfusion.Blazor.Themes/bootstrap5.css" rel="stylesheet" />
+    <script src="_content/Syncfusion.Blazor/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
     @*<link href="css/partials/padding.css"/>*@
     <link href="css/partials/navbar.css"/>
     <link href="css/site.css" rel="stylesheet" />
@@ -22,8 +24,11 @@
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
-    @RenderBody()
+   
 
+    
+    @RenderBody()
+   
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
             An error has occurred. This application may no longer respond until reloaded.
@@ -33,7 +38,8 @@
         </environment>
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
-    </div>
+   
+     </div>
     <footer>
         <div class="container">
             <div class="row">
@@ -54,24 +60,7 @@
                     </address>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-lg-2">
-                    <h4>Pat's Porch</h4>
-                    <address>
-                        309 E. 17th St<br />
-                        Dover, OH 44622<br />
-                        330-364-8849
-                    </address>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-lg-2">
-                    <h4>Hattie's House</h4>
-                    <address>
-                        266 Bolivar St.<br />
-                        Bolivar, OH 44612<br />
-                        330-874-9999
-                    </address>
-                </div>
-            </div>
+            
         </div>
     </footer>
     <script src="_framework/blazor.server.js"></script>

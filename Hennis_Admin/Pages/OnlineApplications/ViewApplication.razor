@@ -1,0 +1,655 @@
+﻿@page "/onlineapplication/{id:int}"
+
+@using Hennis_Common
+
+@inject IOnlineApplicationRepository _repo;
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/loading.gif" />
+    </div>
+}
+else
+{
+
+
+
+
+    <div class="container">
+        <!-- Heading Section -->
+
+
+        <!-- End Heading Section -->
+
+
+            <div class="row ">
+                
+                    <div class="form-horizontal">
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Name:</label>
+                                @Application.Name
+                            </div>
+                            <div class="col-md-12">
+                        <label>Address: </label> @Application.Address
+
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                        <label>Email: </label>@Application.Email
+
+                            </div>
+                            <div class="col-12">
+                                <label>Phone: </label>@Application.Phone
+
+                            </div>
+                            <div class="col-12">
+                        <label>Professional License Number: </label>@Application.ProfessionalLicenseNumber"
+                                
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Best time to contact you at home: </label> @Application.ContactTime
+                               
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Position Applied For: </label>
+                                @Application.Position
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>If you are under 18 years of age, can you provide required proof of your eligibility to work?</label>
+                                @Application.CanProvideProof
+                               
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Have you ever filed an application with us before?</label>
+                                @Application.FilledApplicationBefore
+                                
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, please provide date</label>
+                                @Application.FilledApplicationBeforeDate
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Have you ever been employed with us before?</label>
+                               @Application.EmployeedBefore"
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, please provide date</label>
+                        @Application.EmployeedBeforeDate
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Do any of your friends relatives, other than spouse, work here?</label>
+                        @Application.FriendsWorkHere
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, state name, relationship and location</label>
+                        @Application.FriendsWorkHereName
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you currently employed?</label>
+                        @Application.CurrentlyEmployed
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, may we contact your current employer?</label>
+                        @Application.ContactEmployer
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you prevented from lawfully becoming employed in the United State because of VISA or Immigration Status? <em>Proof of citizenship, immigration status, and right to work in the US will be required upon employment</em></label>
+                        @Application.LawfulEmployee
+                            </div>
+
+
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you currently laid off and subject to recall?</label>
+                        @Application.CurrentlyLaidOff
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+
+                            <div class="col-12">
+                                <label>Date available for work</label>
+                        @Application.DateAvailable
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-4">
+
+                            <div class="col-12">
+                                <label>What is your desired salary range?</label>
+                                @Application.DesiredSalary
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you available to work:</label><br />
+                                <div class="row mb-3">
+                                    <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTime" Label="Full-Time" /><br />
+                                    <div class="pl-2">
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTimeFirst" Label="First" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTimeSecond" Label="Second" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTimeThird" Label="Third" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTime" Label="Part-Time" /><br />
+                                    <div class="pl-2">
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTimeFirst" Label="First" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTimeSecond" Label="Second" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTimeThird" Label="Third" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTime" Label="As Needed" /><br />
+                                    <div class="pl-2">
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTimeFirst" Label="First" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTimeSecond" Label="Second" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTimeThird" Label="Third" />
+                                    </div>
+                                </div>
+                                @*<InputCheckbox  Value="@Application.AsNeeded"></InputCheckbox>*@
+                            </div>
+                        </div>
+
+                        <h3 class="text-capitalize">Work Experience</h3>
+                        <p>List your current job first, then your previous employment history. Include any job related military service assignments, and volunteer activities</p>
+                        <div class="mb-5">
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Employer</label>
+                            @Application.Employer1
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Address</label>
+                            @Application.Address1
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Telephone Number(s)</label>
+                                    @Application.TelephoneNumber1
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Starting/Present Job Title</label>
+                            @Application.JobTitle1
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Supervisor/Manager</label>
+                            @Application.Supervisor1
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>May we contact?</label>
+                                    @Application.MayWeContact1
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Reason for Leaving</label>
+                            @Application.ReasonForLeaving1
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Dates Employed</label><br>
+                                    <label>Start Date</label>
+                                    @Application.StartDate1
+                                    <label>End Date</label>
+                                    @Application.EndDate1
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Hourly Rate/Salary</label><br>
+                                    <label>Beginning</label>
+                                    @Application.BeginningSalary1
+                                    <label>Ending</label>
+                                    @Application.EndingSalary1
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Duties/Work performed</label>
+                            @Application.Duties1
+         
+                                </div>
+                            </div>
+                        </div>
+                <div class="mb-5">
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Employer</label>
+                            @Application.Employer2
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Address</label>
+                            @Application.Address2
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Telephone Number(s)</label>
+                            @Application.TelephoneNumber2
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Starting/Present Job Title</label>
+                            @Application.JobTitle2
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Supervisor/Manager</label>
+                            @Application.Supervisor2
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>May we contact?</label>
+                            @Application.MayWeContact2
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Reason for Leaving</label>
+                            @Application.ReasonForLeaving2
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="col-12">
+                            <label>Dates Employed</label><br>
+                            <label>Start Date</label>
+                            @Application.StartDate2
+                            <label>End Date</label>
+                            @Application.EndDate2
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="col-12">
+                            <label>Hourly Rate/Salary</label><br>
+                            <label>Beginning</label>
+                            @Application.BeginningSalary2
+                            <label>Ending</label>
+                            @Application.EndingSalary2
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Duties/Work performed</label>
+                            @Application.Duties2
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Employer</label>
+                            @Application.Employer3
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Address</label>
+                            @Application.Address3
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Telephone Number(s)</label>
+                            @Application.TelephoneNumber3
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Starting/Present Job Title</label>
+                            @Application.JobTitle3
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Supervisor/Manager</label>
+                            @Application.Supervisor3
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>May we contact?</label>
+                            @Application.MayWeContact3
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Reason for Leaving</label>
+                            @Application.ReasonForLeaving3
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="col-12">
+                            <label>Dates Employed</label><br>
+                            <label>Start Date</label>
+                            @Application.StartDate3
+                            <label>End Date</label>
+                            @Application.EndDate3
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="col-12">
+                            <label>Hourly Rate/Salary</label><br>
+                            <label>Beginning</label>
+                            @Application.BeginningSalary3
+                            <label>Ending</label>
+                            @Application.EndingSalary3
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="col-12">
+                            <label>Duties/Work performed</label>
+                            @Application.Duties3
+
+                        </div>
+                    </div>
+                </div>
+
+                        <h3 class="text-uppercase">Education</h3>
+                        <div class="mb-4">
+                            <h4 class="h5">High School</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                        @Application.HighSchoolName
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                        @Application.HighSchoolStudy
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                        @Application.HighSchoolYearsComplete
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                        @Application.HighSchoolDiploma
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Undergraduate College</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                        @Application.UnderGradName
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                        @Application.UnderGradStudy
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                        @Application.UnderGradYearsComplete
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                        @Application.UnderGradDiploma
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Graduate Professional</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                        @Application.GraduateName
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                        @Application.GraduateStudy
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                        @Application.GraduateYearsComplete
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                        @Application.GraduateDiploma
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Technical/Specialty</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                                @Application.TechnicalName
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                        @Application.TechnicalStudy
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                        @Application.TechnicalYearsComplete
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                                @Application.TechnicalDiploma
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Other</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                        @Application.OtherName
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                                @Application.OtherStudy
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                        @Application.OtherYearsComplete
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                        @Application.OtherDiploma
+                            </div>
+                        </div>
+
+                        <h3 class="text-uppercase">Life Experience</h3>
+                        
+                            <div class="col-12 mb-3">
+                                <label>Describe any specialized training, apprenticeships, skills or extra curricular activities.</label>
+                               @Application.SpecializedTraning
+                            </div>
+
+                        <div class="col-12 mb-3">
+                            <label>Describe any job related training received in the United State military.</label>
+                    @Application.JobRelatedTraining
+                        </div>
+
+                          <div class="col-12 mb-3">
+                            <label>Describe any professional, trade, business, civic or other activities or office you have held.</label>
+                    @Application.ProfessionalActivities
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label>Describe any other job related skills, qualifications or experiences.</label>
+                    @Application.JobRelatedSkills
+                        </div>
+
+                        <h3 class="text-uppercase">Personal/Professional References</h3>
+                        <p>Do not include family members or past supervisors/managers.</p>
+
+                        <div class="mb-4">
+                            <div class="col-12 mb-3">
+                                <label>Name</label>
+                        @Application.Reference1Name
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Phone Number</label>
+                        @Application.Reference1Phone
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Occupation</label>
+                        @Application.Reference1Occupation
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Best Time to Call</label>
+                        @Application.Reference1TimeToCall
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="col-12 mb-3">
+                                <label>Name</label>
+                                @Application.Reference2Name
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Phone Number</label>
+                                @Application.Reference2Phone
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Occupation</label>
+                               @Application.Reference2Occupation
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Best Time to Call</label>
+                                @Application.Reference2TimeToCall
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="col-12 mb-3">
+                                <label>Name</label>
+                                @Application.Reference3Name
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Phone Number</label>
+                                @Application.Reference3Phone
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Occupation</label>
+                                @Application.Reference3Occupation
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Best Time to Call</label>
+                                @Application.Reference3TimeToCall
+                            </div>
+                        </div>
+
+                        <h3 class="text-uppercase">Applicant's Statement</h3>
+                        <p>I certify that all answers given herein are true and complete. I authorize the investigation of all statements contained in the application for employment as may be necessary in arriving in an employment decision.
+
+This application for employment shall be considered active for a period of time not to exceed 45 days. Any applicant who desires to be considered for employment past 45 days should inquire as to whether or not applications are being accepted at that time. I hereby understand and agree that any employment relationship with Hennis Care Centre, a smoke free facility, is of an "AT WILL" nature, which means that the employee may resign at any time and Hennis Care Centre may discharge the employee at any time with or without cause or notice. It is further understood that this "AT WILL" employment relationship may not be changed by any written documentation or verbal authority unless such change is authorized and specifically acknowledged in writing by the President of Hennis Care Centre. In the event of employment, I understand that false or misleading information given on my application or during an interview(s) may result in termination of employment. I understand that I will be required to abide by all the policy and procedures, rules and and regulations of Hennis Care Centre.</p>
+<div class="col-12 mb-3">
+                                <label>Signature</label>
+                                @Application.Signature
+                            </div>
+
+                            <div class="form-group mb-4">
+
+                            <div class="col-12">
+                                <label>Applying To</label>
+                                @Application.LocationSubmitted
+                            </div>
+
+                        </div>
+                       
+
+                    </div>
+            </div>
+        </div>
+
+}
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+
+    public bool IsLoading { get; set; } = true;
+    public OnlineApplicationDto Application { get; set; } = new OnlineApplicationDto();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            LoadPageContent();
+        }
+    }
+
+    private async Task LoadPageContent()
+    {
+        IsLoading = true;
+        StateHasChanged();
+
+        Application = await _repo.ConvertToObject(Id);
+
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+
+}

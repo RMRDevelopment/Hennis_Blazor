@@ -8,6 +8,24 @@ html, body {
     color: #100007;
 }
 
+.content-wrapper{
+    
+    margin-bottom:150px;
+}
+@media(max-width:992px) {
+    .content-wrapper {
+        margin-bottom: 75px;
+    }
+}
+
+.img-responsive{
+    max-width:100%;
+}
+
+/*remove caret from dropdown-toggle*/
+.dropdown-toggle::after{
+    display:none;
+}
 /** grey color **/
 .primary-bg {
     background-color: #9bafb2;
@@ -98,8 +116,15 @@ a, .btn-link {
     height:75px;
 }
 
+
 .height-200{
-    height:300px;
+    height:20vh;
+    
+}
+@media(min-width:992px) {
+    .height-200{
+        height:40vh;
+    }
 }
 
 h3, h4,h5,h6 {
@@ -121,4 +146,33 @@ h3, h4,h5,h6 {
 
 .staff-container p{
     margin-bottom:0;
+}
+
+.happenings-item{
+    border:1px solid #000;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.happenings-item h3{
+    color:#000;
+}
+
+.happenings-item p{
+    margin-bottom:0px;
+}
+
+.happenings-item .hideContent{
+    overflow:hidden;
+    line-height:1em;
+    height:4em;
+}
+
+.happenings-item .showContent{
+    line-height:1em;
+    height:auto;
+}
+
+.happenings-item button{
+    background-color:transparent;
 }

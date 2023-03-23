@@ -1,0 +1,48 @@
+﻿@using Hennis_Models.Dto;
+
+<div style="height:500px;" class="mb-5">
+    <SfCarousel>
+        @foreach (var item in Images)
+        {
+
+            <CarouselItem ShowIndicators="false">
+                <figure class="img-container">
+                    <img src="@($"data:image/png;base64,{Convert.ToBase64String(item?.ImageData)}")" class="h-100 w-100" alt="@item.Title">
+                </figure>
+            </CarouselItem>
+
+
+        }
+    </SfCarousel>
+</div>
+
+@*<div id="@Id" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @foreach(var image in Images)
+        {
+            string css = counter == 0 ? "active" : "";
+
+            <div class="carousel-item @css">
+
+            </div>
+
+            counter++;
+        }
+
+    </div>
+</div>*@
+
+
+
+@code {
+    [Parameter]
+    public List<ImageGalleryDto> Images { get; set; }
+    public string Id
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+    public int counter { get; set; } = 0;
+}

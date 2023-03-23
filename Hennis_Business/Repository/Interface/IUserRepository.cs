@@ -14,5 +14,6 @@ namespace Hennis_Business.Repository.Interface
         Task<IEnumerable<ApplicationUser>> GetAll();
 
         Task<ApplicationUser> GetUserByUsername(string username);
+
     }
 }

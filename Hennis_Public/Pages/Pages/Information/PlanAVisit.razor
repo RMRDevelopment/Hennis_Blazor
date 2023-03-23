@@ -1,8 +1,10 @@
 ﻿@page "/planavisit"
 @inject IPageRepository _pageRepository
+@inject IImageGalleryRepository _imageRepo
+@inject IJSRuntime jsRuntime
 @using Hennis_Models.Dto
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Hennis Care Centre of Bolivar and Dover</PageTitle>
 
 
 
@@ -15,9 +17,63 @@
 else
 {
 
-    
-    
     <div class="container">
+        <!-- Heading Section -->
+
+        <Hennis_Public.Pages.Components._Heading Page="Page"></Hennis_Public.Pages.Components._Heading>
+        <!-- End Heading Section -->
+
+        <div class="offset-md-1 col-md-10">
+            <div class="px-4">
+                <p>Come and take a tour of our wonderful facilities! Both Dover and Bolivar Hennis Care Centres offer beautiful lifestyle living at The Gardens, The Homestead and our Rehab Unit.</p>
+
+                <h2 class="text-center">Our 3 Levels of Care</h2>
+
+                <Hennis_Public.Pages.Components._PageTiles PageId="20"></Hennis_Public.Pages.Components._PageTiles>
+
+                <div class="my-4">
+                <h2 class="text-center">Take A Tour</h2>
+                    <p>Spend as much time as you like browsing through our photo galley. Besides, it shows off our greatest treasures, our RESIDENTS and our EMPLOYEES!</p>
+                </div>
+                        <!-- Bolivar Images-->
+                @if(BolivarImages.Count() > 0)
+                {
+                    <h3 class=" text-black">Hennis Care Center of Bolivar</h3>
+                    <Hennis_Public.Pages.Components._ImageGallery Images="BolivarImages"></Hennis_Public.Pages.Components._ImageGallery>
+                }
+
+                <!-- Dover Images-->
+                @if (DoverImages.Count() > 0)
+                {
+                    <h3 class="text-black">Hennis Care Center of Dover</h3>
+                    <Hennis_Public.Pages.Components._ImageGallery Images="DoverImages"></Hennis_Public.Pages.Components._ImageGallery>
+                }
+
+
+                <h2 class="text-center">Plan a Visit</h2>
+                <p>We would love to meet you! If you would like to schedule an appointment to tour our facilities, we invite you to <a href="mailto:hwest@henniscarecentre.com">contact us</a> today. No question is too small and we love opening our doors to new visitors!</p>
+            </div>
+
+             
+           
+
+        </div>
+
+
+        <!-- section for text-->
+        @*@if (Page.LayoutId == 1)
+    {
+    <Hennis_Public.Shared.Layouts._FullWidth Page="Page"></Hennis_Public.Shared.Layouts._FullWidth>
+    }
+    else
+    {
+    <Hennis_Public.Shared.Layouts._TwoColumn Page="Page"></Hennis_Public.Shared.Layouts._TwoColumn>
+    }*@
+        <!-- end text section-->
+    </div>
+
+    
+   @* <div class="container">
     <!-- section for text-->
     @if (Page.LayoutId == 1)
     {
@@ -28,7 +84,7 @@ else
         <Hennis_Public.Shared.Layouts._TwoColumn Page="Page"></Hennis_Public.Shared.Layouts._TwoColumn>
     }
     <!-- end text section-->
-    </div>
+    </div>*@
 }
 
 
@@ -39,6 +95,10 @@ else
     public PageDto Page { get; set; } = new();
 
     public bool IsLoading { get; set; } = true;
+
+    public List<ImageGalleryDto> BolivarImages { get; set; } = new List<ImageGalleryDto>();
+
+    public List<ImageGalleryDto> DoverImages { get; set; } = new List<ImageGalleryDto>();
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -53,6 +113,11 @@ else
         IsLoading = true;
         StateHasChanged();
         Page = await _pageRepository.Get(20);
+        var bolivar = await _imageRepo.GetWithImagesByLocationAsync(20, 1);
+        var dover = await _imageRepo.GetWithImagesByLocationAsync(20, 2);
+        BolivarImages = bolivar.ToList();
+        DoverImages = dover.ToList();
+        jsRuntime.InvokeAsync<object>("initializeCarousel");
         IsLoading = false;
         StateHasChanged();
     }

@@ -38,9 +38,14 @@ namespace Hennis_DAL.Data
                 .Where(E => E.State == EntityState.Added)
                 .ToList();
 
+
             AddedEntities.ForEach(E =>
             {
-                E.Property("CreatedDateTime").CurrentValue = DateTime.Now;
+                if (E.Entity.GetType().GetProperty("CreatedDateTime") != null)
+                {
+                    E.Property("CreatedDateTime").CurrentValue = DateTime.Now;
+                }
+ 
             });
 
             var EditedEntities = ChangeTracker.Entries()
@@ -49,7 +54,11 @@ namespace Hennis_DAL.Data
 
             EditedEntities.ForEach(E =>
             {
-                E.Property("ModifiedDateTime").CurrentValue = DateTime.Now;
+                if (E.Entity.GetType().GetProperty("ModifiedDateTime") != null)
+                {
+                    E.Property("ModifiedDateTime").CurrentValue = DateTime.Now;
+                }
+                
             });
 
             //return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -64,7 +73,11 @@ namespace Hennis_DAL.Data
 
             AddedEntities.ForEach(E =>
             {
-                E.Property("CreatedDateTime").CurrentValue = DateTime.Now;
+                if (E.Entity.GetType().GetProperty("CreatedDateTime") != null)
+                {
+                    E.Property("CreatedDateTime").CurrentValue = DateTime.Now;
+                }
+
             });
 
             var EditedEntities = ChangeTracker.Entries()
@@ -73,7 +86,10 @@ namespace Hennis_DAL.Data
 
             EditedEntities.ForEach(E =>
             {
-                E.Property("ModifiedDateTime").CurrentValue = DateTime.Now;
+                if (E.Entity.GetType().GetProperty("ModifiedDateTime") != null)
+                {
+                    E.Property("ModifiedDateTime").CurrentValue = DateTime.Now;
+                }
             });
 
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -91,12 +107,18 @@ namespace Hennis_DAL.Data
 
         public DbSet<Import> Imports { get; set; }
 
+        public DbSet<ImageGallery> ImageGallery { get; set; }
+
         public DbSet<Paystub> Paystubs { get; set; }
         public DbSet<BinaryFile> BinaryFiles { get; set; }
 
-        public DbSet<HomePageTile> HomePageTiles { get; set; }
+        public DbSet<PageTile> PageTiles { get; set; }
 
         public DbSet<StaffImage> StaffImages { get; set; }
+
+        public DbSet<Happenings> Happenings { get; set; }
+
+        public DbSet<OnlineApplication> OnlineApplications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

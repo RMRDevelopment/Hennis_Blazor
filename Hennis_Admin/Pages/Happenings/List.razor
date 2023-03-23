@@ -1,0 +1,171 @@
+﻿@page "/happenings"
+@using Hennis_Common
+
+@inject IHappeningsRepository _repo;
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+<div class="row mt-4">
+    <div class="col-6">
+        Happenings
+    </div>
+
+    <div class="col-12 py-2">
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/loading.gif" />
+            </div>
+        }
+        else
+        {
+            <SfGrid DataSource="@Items" AllowSorting="true" AllowFiltering="true" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="50"></GridPageSettings>
+                <GridEvents OnActionComplete="ActionComplete" TValue="HappeningsDto"></GridEvents>
+                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.Grids.EditMode.Dialog">
+                    <Template>
+                        @{
+                            var item = (context as HappeningsDto);
+                            <div>
+                                <div class="form-row mb-4">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Id</label>
+                                        <SfNumericTextBox ID="Id" @bind-Value="@(item.Id)" ShowSpinButton="false" Enabled="false"></SfNumericTextBox>
+                                    </div>
+
+                                </div>
+                                <div class="form-row mb-4">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Title</label>
+                                        <SfTextBox ID="Title" @bind-Value="@(item.Title)"></SfTextBox>
+                                    </div>
+                                </div>
+
+                               
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Content</label>
+                                        <SfRichTextEditor Width="500" @bind-Value="@item.Content">
+                                            <RichTextEditorToolbarSettings EnableFloating="false" Items="@Tools" Type="ToolbarType.Scrollable" />
+                                            <RichTextEditorImageSettings SaveUrl="http://localhost:24147/api/Image/Save" Path="./Images/" />
+                                        </SfRichTextEditor>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Date</label>
+                                        <SfDatePicker ID="Date" @bind-Value="@(item.Date)" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Display Start</label>
+                                        <SfDateTimePicker ID="Display Start" @bind-Value="@(item.DisplayStartDate)" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Display End</label>
+                                        <SfDateTimePicker ID="DisplayEnd" @bind-Value="@(item.DisplayEndDate)" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="e-label-top">Display On</label>
+                                        <SfDropDownList TValue="int" TItem="DisplayOption" DataSource="@DisplayOptions" Placeholder="Choose Page to Display On" @bind-Value="@(item.DisplayOption)">
+                                            <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                        </SfDropDownList>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(HappeningsDto.Id) Width="50" HeaderText="ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true})"></GridColumn>
+                    <GridColumn Field=@nameof(HappeningsDto.Title) HeaderText="Title" ValidationRules="@(new ValidationRules{ Required=true})" Width="300"></GridColumn>
+                    <GridColumn Field=@nameof(HappeningsDto.Content) HeaderText="Content"></GridColumn>
+                    <GridColumn Field=@nameof(HappeningsDto.Date) HeaderText="Date" ></GridColumn>
+                    <GridColumn Field=@nameof(HappeningsDto.DisplayStartDate) HeaderText="Display Start" ></GridColumn>
+                    <GridColumn Field=@nameof(HappeningsDto.DisplayEndDate) HeaderText="Display End"></GridColumn>
+                    <GridColumn Field=@nameof(HappeningsDto.DisplayOption) HeaderText="Displayed On">
+                        <Template>
+                            @{
+                                var item = (context as HappeningsDto);
+                                <div>
+                                    @DisplayOptionText(item.DisplayOption)
+                                </div>
+                            }
+                        </Template>
+                    </GridColumn>
+
+                </GridColumns>
+            </SfGrid>
+        }
+    </div>
+</div>
+
+@code {
+
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+    private class DisplayOption
+    {
+        public string Name { get; set; }
+
+        public int Value { get; set; }
+    }
+
+    private List<DisplayOption> DisplayOptions = new List<DisplayOption>
+    {
+        new DisplayOption(){Name = "Resident Happenings", Value = 1 },
+        new DisplayOption(){Name = "Employee Happenings", Value = 2},
+        new DisplayOption(){Name = "Both", Value =3 }
+    };
+
+    private string DisplayOptionText(int page)
+    {
+        switch (page)
+        {
+            case 1:
+                return "Resident Happenings";
+                
+            case 2:
+                return "Employee Happenings";
+               
+            case 3:
+                return "Both";
+                
+            default:
+                return "";
+               
+        }
+    }
+}

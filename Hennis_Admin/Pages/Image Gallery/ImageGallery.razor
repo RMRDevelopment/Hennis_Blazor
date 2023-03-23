@@ -1,0 +1,157 @@
+﻿@page "/imagegallery"
+@using Hennis_Common
+
+@inject IImageGalleryRepository _repo;
+@inject IPageRepository _pageRepo;
+@inject IFileRepository _fileRepo;
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+<div class="row mt-4">
+    <div class="col-6">
+        Page Tiles
+    </div>
+
+    <div class="col-12 py-2">
+
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/loading.gif" />
+            </div>
+        }
+        else
+        {
+
+
+            <SfGrid DataSource="@Tiles" AllowSorting="true" AllowFiltering="true" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="50"></GridPageSettings>
+                <GridEvents OnActionComplete="ActionComplete" TValue="ImageGalleryDto"></GridEvents>
+                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.Grids.EditMode.Dialog">
+                    <Template>
+                        @{
+                            var tile = (context as ImageGalleryDto);
+                                    
+                                        <div class="form-row mb-4">
+                                            <div class="form-group col-md-12">
+                                                <label class="e-label-top">Id</label>
+                                                <SfNumericTextBox ID="Id" @bind-Value="@(tile.Id)" ShowSpinButton="false" Enabled="false"></SfNumericTextBox>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="form-group col-md-12">
+                                                <label class="e-label-top">Title</label>
+                                                <SfTextBox ID="Title" @bind-Value="@(tile.Title)"></SfTextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row mb-4">
+                                            <div class="form-group col-md-12">
+                                                <label class="e-label-top">Image</label>
+                                                <SfUploader ID="UploadFiles" AllowedExtensions=".jpg,.png,.jpeg" ChunkSize="500000" AllowMultiple="false" AutoUpload="true">
+                                                    <UploaderAsyncSettings SaveUrl="api/Image/Save" RemoveUrl="api/Image/Remove" />
+                                                    <UploaderEvents Success="SuccessHandler" />
+                                                </SfUploader>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class="form-row mb-4">
+                                    <SfDropDownList TValue="int" Placeholder="Select Page" TItem="PageDto" @bind-Value="@(tile.PageId)" DataSource="@Pages" Width="300px">
+                                        <DropDownListFieldSettings Value="Id" Text="Name"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                        </div>
+                                <div class="form-row mb-4">
+                                    <SfDropDownList TValue="int" Placeholder="Select Location" TItem="LocationOption" @bind-Value="@(tile.LocationId)" DataSource="@LocationOptions" Width="300px">
+                                        <DropDownListFieldSettings Value="Value" Text="Name"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                                        
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(ImageGalleryDto.Id) Width="50" HeaderText="ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true})"></GridColumn>
+                    <GridColumn Field=@nameof(ImageGalleryDto.Title) HeaderText="Title" ValidationRules="@(new ValidationRules{ Required=true})" Width="300"></GridColumn>
+                    <GridColumn Field=@nameof(ImageGalleryDto.LocationId) HeaderText="Location"></GridColumn>
+                        <GridColumn Field=@nameof(ImageGalleryDto.PageId) HeaderText="Page"></GridColumn>
+                    <GridColumn Field=@nameof(ImageGalleryDto.ImageData) HeaderText="Image" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var tile = (context as ImageGalleryDto);
+                                if(tile != null && tile.ImageData != null){
+                                    <div class="image">
+                                        <img class="img-responsive" style="max-height:100px;" src="@($"data:image/png;base64,{Convert.ToBase64String(tile?.ImageData)}")" />
+                                    </div>
+                                }
+                                    
+                            }
+                        </Template>
+                    </GridColumn>
+
+                </GridColumns>
+            </SfGrid>
+        }
+
+    </div>
+</div>
+
+@code {
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+
+    private class LocationOption
+    {
+        public string Name { get; set; }
+
+        public int Value { get; set; }
+    }
+
+    private List<LocationOption> LocationOptions = new List<LocationOption>
+    {
+        new LocationOption(){Name = "Bolivar", Value = 1 },
+        new LocationOption(){Name = "Dover", Value = 2}
+    };
+
+    private string LocationOptionText(int page)
+    {
+        switch (page)
+        {
+            case 1:
+                return "Bolivar";
+
+            case 2:
+                return "Dover";
+
+            default:
+                return "";
+
+        }
+    }
+}

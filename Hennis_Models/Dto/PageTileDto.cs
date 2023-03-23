@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hennis_DAL.DbEntities
+namespace Hennis_Models.Dto
 {
-    [Table("HomePageTile")]
-    public class HomePageTile : BaseEntityModel
+    public class PageTileDto : BaseModel
     {
         public int Id { get; set; }
 
@@ -19,17 +18,14 @@ namespace Hennis_DAL.DbEntities
         public int ImageId { get; set; }
 
 
-
         public string Content { get; set; }
-
-
 
         public bool Deleted { get; set; }
 
-        #region Virtual Properties
-        [ForeignKey("ImageId")]
-        //[NotMapped]
-        public virtual BinaryFile Image { get; set; }
-        #endregion
+        public byte[] ImageData { get; set; }
+
+        public string FileName { get; set; }
+
+        public int PageId { get; set; }
     }
 }

@@ -1,0 +1,79 @@
+﻿@page "/onlineapplications"
+
+@using Hennis_Common
+
+@inject IOnlineApplicationRepository _repo;
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+<div class="row mt-4">
+    <div class="col-6">
+        Online Applications
+    </div>
+
+    <div class="col-12 py-2">
+
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/loading.gif" />
+            </div>
+        }
+        else
+        {
+
+
+            <SfGrid DataSource="@Applications" AllowSorting="true" AllowFiltering="true" AllowPaging="true" >
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="50"></GridPageSettings>
+
+                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="false" AllowEditing="false" AllowDeleting="true" />
+                <GridColumns>
+                    <GridColumn Field=@nameof(OnlineApplicationDto.Id) Width="50" HeaderText="ID" IsPrimaryKey="true"></GridColumn>
+                    <GridColumn Field=@nameof(OnlineApplicationDto.DateSubmitted) HeaderText="Date Submitted"></GridColumn>
+                    <GridColumn Field=@nameof(OnlineApplicationDto.Name) HeaderText="Name"></GridColumn>
+                    <GridColumn Field=@nameof(OnlineApplicationDto.LocationSubmitted) HeaderText="Location"></GridColumn>
+
+                    <GridColumn HeaderText="" Field=@nameof(OnlineApplicationDto.Id)>
+                        <Template>
+                            @{
+                                var app = (context as OnlineApplicationDto);
+                                <div>
+                                    <a href="/onlineapplication/@app.Id" class="btn btn-sm btn-primary" target="_blank">View</a>
+                                </div>
+                            }
+                        </Template>
+                    </GridColumn>
+
+                </GridColumns>
+            </SfGrid>
+        }
+       
+
+    </div>
+</div>
+
+
+@code {
+    private IEnumerable<OnlineApplicationDto> Applications { get; set; } = new List<OnlineApplicationDto>();
+
+    public bool IsLoading { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadPages();
+        }
+    }
+
+    private async Task LoadPages()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Applications = await _repo.GetObjectList();
+        Applications = Applications.OrderByDescending(x => x.DateSubmitted);
+        IsLoading = false;
+        StateHasChanged();
+    }
+}

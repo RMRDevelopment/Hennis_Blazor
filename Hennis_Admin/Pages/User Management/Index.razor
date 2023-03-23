@@ -1,0 +1,92 @@
+﻿@page "/Admin/Users"
+@inject IUserRepository _repo;
+
+<_AuthenticationRedirect></_AuthenticationRedirect>
+
+<div class="row mt-4">
+    <div class="col-6">
+        Manage Users
+    </div>
+
+    <div class="col-12 py-2">
+        @if (IsLoading)
+        {
+            <_Loading></_Loading>
+        }
+        else{
+
+            <a href="/Admin/Users/New" class="btn btn-primary">Add New</a>
+
+            <hr/>
+
+            <SfGrid DataSource="@Users" AllowSorting="true" AllowFiltering="true" AllowPaging="true">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridEvents OnActionComplete="ActionComplete" TValue="ApplicationUser"></GridEvents>
+                <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.Grids.EditMode.Dialog">
+                    <Template>
+                        @{
+                            var user = (context as ApplicationUser);
+                            <div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <label class="e-label-top">Id</label>
+                                        <SfTextBox ID="Id" @bind-Value="@(user.Id)" Readonly="true" Enabled="false"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <label class="e-label-top">First Name</label>
+                                        <SfTextBox ID="FirstName" @bind-Value="@(user.FirstName)"/>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <label class="e-label-top">Last Name</label>
+                                        <SfTextBox ID="LastName" @bind-Value="@(user.LastName)"/>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <label class="e-label-top">Username</label>
+                                        <SfTextBox ID="Username" @bind-Value="@(user.UserName)" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <label class="e-label-top">Email</label>
+                                        <SfTextBox ID="Email" @bind-Value="@(user.Email)" Type="InputType.Email" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(ApplicationUser.Id) HeaderText="Id" IsPrimaryKey="true" />
+                    <GridColumn Field=@nameof(ApplicationUser.UserName) HeaderText="Username" ValidationRules="@(new ValidationRules{Required=true})" />
+                    <GridColumn Field=@nameof(ApplicationUser.Email) HeaderText="Email" ValidationRules="@(new ValidationRules{Email=true,Required=true})"/>
+                    <GridColumn Field=@nameof(ApplicationUser.FirstName) HeaderText="First Name" ValidationRules="@(new ValidationRules{Required=true})"/>
+                    <GridColumn Field=@nameof(ApplicationUser.LastName) HeaderText="Last Name" ValidationRules="@(new ValidationRules{Required=true})" />
+                    <GridColumn Field=@nameof(ApplicationUser.Location) HeaderText="Location" ValidationRules="@(new ValidationRules{Required=true})"/>
+                    <GridColumn AllowFiltering="false" AllowSorting="false" Width="300" HeaderText="Manage" Field=@nameof(ApplicationUser.Id)>
+                        <Template>
+                            @{
+                                var user = (context as ApplicationUser);
+                                <div>
+                                    <a class="btn btn-sm btn-primary" href="/Admin/User/Roles/@user?.Id">Manage Roles</a>
+                                    <a class="btn btn-sm btn-danger" href="/Admin/User/ResetPassword/@user?.Id">Change Password</a>
+                                </div>
+                            }
+                        </Template>
+                    </GridColumn>
+                </GridColumns>
+                    
+            </SfGrid>
+        }
+    </div>
+</div>
+
+@code {
+
+}

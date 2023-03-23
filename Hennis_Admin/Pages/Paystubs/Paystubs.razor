@@ -65,22 +65,23 @@
 
                 if (user.User.IsInRole(SD.Role_User))
                 {
-                    
+
                     var dbUser = await userRepo.GetUserByUsername(user.User.Identity.Name);
                     await LoadPaystubs(dbUser.FullName);
                 }
-            }
-            else
-            {
-                IsLoading = false;
-                // start with just loading all users
-                var result = await userRepo.GetAll();
-                Users = result.ToList();
 
-                StateHasChanged();
+                else
+                {
+                    IsLoading = false;
+                    // start with just loading all users
+                    var result = await userRepo.GetAll();
+                    Users = result.ToList();
+
+                    StateHasChanged();
+                }
             }
+
         }
-
     }
 
     private async Task LoadPaystubs(string id)

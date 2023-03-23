@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Syncfusion.Blazor;
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NzMzODc4QDMyMzAyZTMzMmUzMG9XNVJ5TFZqcmZPZDBVdXNNem1VK0cyYnhXU09manF6c2pVWmdZdG5aY1E9");
-
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTM5MjE1NkAzMjMwMmUzNDJlMzBKZWd6aUp6eENlcitGSGt0d2JWQWRueDg3QmIyQm1rdk1aS1dySzlWUFFRPQ==");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +25,11 @@ builder.Services.AddCors();
 
 builder.Services.AddScoped<IPageRepository, PageRepository>();
 builder.Services.AddScoped<IHtmlContentRepository, HtmlContentRepository>();
-builder.Services.AddScoped<IHomePageTileRepository, HomePageTileRepository>();
+builder.Services.AddScoped<IPageTileRepository, PageTileRepository>();
 builder.Services.AddScoped<IStaffImageRepository, StaffImageRepository>();
+builder.Services.AddScoped<IHappeningsRepository, HappeningsRepository>();
+builder.Services.AddScoped<IImageGalleryRepository, ImageGalleryRepository>();
+builder.Services.AddScoped<IOnlineApplicationRepository, OnlineApplicationRepistory>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 

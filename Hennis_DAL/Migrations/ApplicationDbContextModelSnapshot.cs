@@ -102,7 +102,7 @@ namespace Hennis_DAL.Migrations
                     b.ToTable("ErrorLog");
                 });
 
-            modelBuilder.Entity("Hennis_DAL.DbEntities.HomePageTile", b =>
+            modelBuilder.Entity("Hennis_DAL.DbEntities.Happenings", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,11 +120,20 @@ namespace Hennis_DAL.Migrations
                     b.Property<DateTime?>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ImageId")
+                    b.Property<DateTime?>("DisplayEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DisplayOption")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DisplayStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -132,18 +141,13 @@ namespace Hennis_DAL.Migrations
                     b.Property<DateTime?>("ModifiedDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("HomePageTile");
+                    b.ToTable("Happenings");
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.HtmlContent", b =>
@@ -182,6 +186,52 @@ namespace Hennis_DAL.Migrations
                     b.HasIndex("PageId");
 
                     b.ToTable("HtmlContent");
+                });
+
+            modelBuilder.Entity("Hennis_DAL.DbEntities.ImageGallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("ImageGallery");
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.Import", b =>
@@ -321,6 +371,35 @@ namespace Hennis_DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Hennis_DAL.DbEntities.OnlineApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Json")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OnlineApplications");
+                });
+
             modelBuilder.Entity("Hennis_DAL.DbEntities.Page", b =>
                 {
                     b.Property<int>("Id")
@@ -368,6 +447,53 @@ namespace Hennis_DAL.Migrations
                     b.HasIndex("ParentPageId");
 
                     b.ToTable("Page");
+                });
+
+            modelBuilder.Entity("Hennis_DAL.DbEntities.PageTile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("PageTile");
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.Paystub", b =>
@@ -685,17 +811,6 @@ namespace Hennis_DAL.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Hennis_DAL.DbEntities.HomePageTile", b =>
-                {
-                    b.HasOne("Hennis_DAL.DbEntities.BinaryFile", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("Hennis_DAL.DbEntities.HtmlContent", b =>
                 {
                     b.HasOne("Hennis_DAL.DbEntities.Page", "Page")
@@ -705,6 +820,17 @@ namespace Hennis_DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Page");
+                });
+
+            modelBuilder.Entity("Hennis_DAL.DbEntities.ImageGallery", b =>
+                {
+                    b.HasOne("Hennis_DAL.DbEntities.BinaryFile", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.LayoutZone", b =>
@@ -739,6 +865,17 @@ namespace Hennis_DAL.Migrations
                     b.Navigation("Layout");
 
                     b.Navigation("ParentPage");
+                });
+
+            modelBuilder.Entity("Hennis_DAL.DbEntities.PageTile", b =>
+                {
+                    b.HasOne("Hennis_DAL.DbEntities.BinaryFile", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Hennis_DAL.DbEntities.Paystub", b =>

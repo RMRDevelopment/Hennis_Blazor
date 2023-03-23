@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository.Interface
 {
-    public interface IHomePageTileRepository : IGenericRepository<HomePageTile, HomePageTileDto>
+    public interface IPageTileRepository : IGenericRepository<PageTile, PageTileDto>
     {
-        Task<IEnumerable<HomePageTileDto>> GetAllWithImagesAsync(bool removeDeleted = false);
+        Task<IEnumerable<PageTileDto>> GetAllWithImagesAsync(int? pageId, bool removeDeleted = false);
         Task<int> GetImageId(int id);
     }
 

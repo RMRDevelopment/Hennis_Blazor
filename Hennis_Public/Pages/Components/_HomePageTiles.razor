@@ -1,5 +1,5 @@
 ﻿@using Hennis_Models.Dto
-@inject IHomePageTileRepository _repo;
+@inject IPageTileRepository _repo;
 
 <div class="container">
     @foreach (var item in Tiles){
@@ -8,7 +8,7 @@
             <div class="d-none d-sm-none d-md-none d-lg-block tile-img-container col-md-3">
                 <img class="img-responsive"  src="@($"data:image/png;base64,{Convert.ToBase64String(item?.ImageData)}")" />
             </div>
-            <div class="title-container col-md-12 col-lg-9">
+            <div class="title-container z2 col-md-12 col-lg-9">
                 @{
                     string background = counter % 2 != 0 ? "primary-bg" : "secondary-bg";
                 }
@@ -26,14 +26,17 @@
 
 
 @code {
-    public IEnumerable<HomePageTileDto> Tiles { get; set; } = new List<HomePageTileDto>();
+
+    [Parameter]
+    public int PageId { get; set; }
+    public IEnumerable<PageTileDto> Tiles { get; set; } = new List<PageTileDto>();
     public int counter { get; set; } = 0;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            Tiles = await _repo.GetAllWithImagesAsync(true);
+            Tiles = await _repo.GetAllWithImagesAsync(PageId,true);
             StateHasChanged();
         }
     }

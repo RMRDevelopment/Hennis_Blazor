@@ -35,7 +35,11 @@ namespace Hennis_Business.Mapper
                 .ForMember(dest => dest.PaystubDate, opt => opt.MapFrom(src => src.PayDate))
                 .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.File.FileName))
                 .ReverseMap();
-            CreateMap<HomePageTile, HomePageTileDto>()
+            CreateMap<PageTile, PageTileDto>()
+                .ForMember(dest => dest.ImageData, opt => opt.MapFrom(src => src.Image.Bytes))
+                .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.Image.FileName));
+
+            CreateMap<ImageGallery, ImageGalleryDto>()
                 .ForMember(dest => dest.ImageData, opt => opt.MapFrom(src => src.Image.Bytes))
                 .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.Image.FileName));
 
@@ -44,10 +48,17 @@ namespace Hennis_Business.Mapper
                 .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.Image.FileName))
                 .ForMember(dest => dest.PageName, opt => opt.MapFrom(src => src.Page.Name));
 
-            CreateMap<HomePageTileDto, HomePageTile>()
+            CreateMap<PageTileDto, PageTile>()
                 .ForAllMembers(
                     opt => opt.Condition((src, dest, sourceMember) => sourceMember != null));
             ;
+
+            CreateMap<ImageGalleryDto, ImageGallery>()
+                .ForAllMembers(
+                    opt => opt.Condition((src, dest, sourceMember) => sourceMember != null));
+            ;
+
+            CreateMap<Happenings, HappeningsDto>().ReverseMap();
 
             CreateMap<StaffImageDto, StaffImage>()
                 .ForAllMembers(

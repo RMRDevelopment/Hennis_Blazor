@@ -10,9 +10,9 @@
             @*Feature Zone*@
             @foreach (var content in Page.HtmlContents.Where(x => x.LayoutZoneName.ToLower() == "feature").ToList())
             {
-                <div class="col-12">
-                    <div>@((MarkupString)@content.Content)</div>
-                </div>
+                @*<div class="col-12">*@
+                    <div class="px-4">@((MarkupString)@content.Content)</div>
+                @*</div>*@
             }
             @*End Feature Zone*@
             @*Zone A*@

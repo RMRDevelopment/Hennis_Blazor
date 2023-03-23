@@ -2,9 +2,69 @@
 @inject IPageRepository _pageRepository
 @using Hennis_Models.Dto
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Hennis Care Centre of Bolivar and Dover</PageTitle>
 
+<style>
+    header {
+        position: relative;
+        background-color: black;
+        height: 75vh;
+        min-height: 25rem;
+        width: 100%;
+        overflow: hidden;
+    }
 
+    .z2{
+        z-index:2;
+    }
+
+    .vh-75{
+        height:75vh;
+    }
+
+    .navbar{
+        z-index:2;
+    }
+
+        header video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        header .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        background: rgb(124,96,107);
+        background: linear-gradient(90deg, rgba(124,96,107,1) 0%, rgba(124,96,107,1) 20%, rgba(0,0,0,.2) 30%);
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        header h2{
+            font-family:'Cardo';
+            font-size:3.5rem;
+
+        }
+
+        header .text-container{
+            height:75vh;
+            position:relative;
+            width:100%;
+        }
+</style>
 
 @if (IsLoading)
 {
@@ -17,14 +77,27 @@ else
 
     <!-- Start Video Banner-->
 
-    <div class="mb-5">
-        <img src="/images/videobg.jpg"/>
+    <header>
+    <div class="overlay"></div>
+
+    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+        <source src="/css/assets/bgvideo.mov" type="video/mp4"/>
+    </video>
+
+    <div class="text-container z2">
+        <div class="container">
+                <div class="d-flex w-25 vh-75 align-items-center">
+                    <h2 class="text-white">Enjoy our Hospitality</h2>
+                </div>
+        </div>
+        
     </div>
+    </header>
 
     <!-- End Video Banner-->
     
     <!-- Start Home Page Tiles-->
-    <Hennis_Public.Pages.Components._HomePageTiles></Hennis_Public.Pages.Components._HomePageTiles>
+    <Hennis_Public.Pages.Components._HomePageTiles PageId="2"></Hennis_Public.Pages.Components._HomePageTiles>
     <!-- End Home Page Tiles -->
 
    

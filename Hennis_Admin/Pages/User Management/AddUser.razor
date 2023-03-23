@@ -1,0 +1,80 @@
+﻿@page "/Admin/Users/New"
+@using Hennis_Common;
+@using Microsoft.AspNetCore.Identity;
+@inject NavigationManager _navigation;
+@inject IJSRuntime _jsRuntime;
+@inject RoleManager<IdentityRole> _roleManager;
+@inject SignInManager<ApplicationUser> _signInManager;
+@inject UserManager<ApplicationUser> _userManager;
+
+<_AuthenticationRedirect Role="@SD.Role_Admin"></_AuthenticationRedirect>
+<div class="row">
+    <h3 class="card-title text-primary mb-3 ml-3">Create User</h3>
+
+    <div class="col-md-10">
+        @if (IsLoading)
+        {
+            <_Loading></_Loading>
+        }
+        else{
+            <EditForm Model="User" OnValidSubmit="SaveUser">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <InputText @bind-Value="User.Username" class="form-control"></InputText>
+                    <ValidationMessage For="()=>User.Username" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText @bind-Value="User.Email" class="form-control"></InputText>
+                    <ValidationMessage For="()=>User.Email" />
+                </div>
+                <div class="form-group">
+                    <label>First Name</label>
+                    <InputText @bind-Value="User.FirstName" class="form-control"></InputText>
+                    <ValidationMessage For="()=>User.FirstName" />
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <InputText @bind-Value="User.LastName" class="form-control"></InputText>
+                    <ValidationMessage For="()=>User.LastName" />
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <InputSelect class="form-control" @bind-Value="User.SelectedLocation">
+                        <option value=""></option>
+                        <option value="Bolivar">Bolivar</option>
+                        <option value="Dover">Dover</option>
+                    </InputSelect>
+                    <ValidationMessage For="()=>User.SelectedLocation" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText type="password"  @bind-Value="User.Password" class="form-control"></InputText>
+                    <ValidationMessage For="()=>User.Password" />
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <InputText type="password" @bind-Value="User.ConfirmPassword" class="form-control"></InputText>
+                    <ValidationMessage For="()=>User.ConfirmPassword" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Role</label>
+                    <InputSelect class="form-control" @bind-Value="User.SelectedRole">
+                        <option value=""></option>
+                        <option value="@SD.Role_User">@SD.Role_User</option>
+                        <option value="@SD.Role_Admin">@SD.Role_Admin</option>
+                    </InputSelect>
+                    <ValidationMessage For="()=>User.SelectedLocation" />
+                </div>
+                <div class="form-group py-2">
+                    <button class="btn btn-primary">Save</button>
+                    <NavLink href="/admin/Users" class="btn btn-secondary">Back to users</NavLink>
+                </div>
+            </EditForm>
+        }
+    </div>
+</div>

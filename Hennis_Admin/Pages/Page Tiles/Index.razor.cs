@@ -2,11 +2,12 @@
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Inputs;
 
-namespace Hennis_Admin.Pages.Homepage_Tiles
+namespace Hennis_Admin.Pages.Page_Tiles
 {
     public partial class Index
     {
-        private IEnumerable<HomePageTileDto> Tiles { get; set; } = new List<HomePageTileDto>();
+        private IEnumerable<PageTileDto> Tiles { get; set; } = new List<PageTileDto>();
+        private IEnumerable<PageDto> Pages { get; set; } = new List<PageDto>();
         public bool IsLoading { get; set; }
         public string FileName { get; set; }
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -21,7 +22,8 @@ namespace Hennis_Admin.Pages.Homepage_Tiles
         {
             IsLoading = true;
             StateHasChanged();
-            Tiles = await _repo.GetAllWithImagesAsync();
+            Tiles = await _repo.GetAllWithImagesAsync(null);
+            Pages = await _pageRepo.GetAll();
             IsLoading = false;
             StateHasChanged();
         }
@@ -33,7 +35,7 @@ namespace Hennis_Admin.Pages.Homepage_Tiles
             StateHasChanged();
         }
 
-        public async Task ActionComplete(ActionEventArgs<HomePageTileDto> args)
+        public async Task ActionComplete(ActionEventArgs<PageTileDto> args)
         {
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
             {
@@ -52,7 +54,7 @@ namespace Hennis_Admin.Pages.Homepage_Tiles
                         args.Data.ImageId = imageId;
                     }
                     
-                    _repo.Update(args.Data, new Hennis_DAL.DbEntities.HomePageTile());
+                    _repo.Update(args.Data, new Hennis_DAL.DbEntities.PageTile());
                     await _repo.Save();
                 }
             }

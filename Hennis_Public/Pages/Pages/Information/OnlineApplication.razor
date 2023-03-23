@@ -1,0 +1,760 @@
+﻿@page "/apply"
+@inject IPageRepository _pageRepository
+@inject IOnlineApplicationRepository _appRepo
+@using Syncfusion.Blazor.Inputs
+@using Hennis_Models.Dto;
+@using Syncfusion.Blazor.Notifications;
+@inject NavigationManager _navigation;
+
+<PageTitle>Hennis Care Centre of Bolivar and Dover</PageTitle>
+
+
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/loading.gif" />
+    </div>
+}
+else
+{
+
+
+
+
+    <div class="container">
+        <!-- Heading Section -->
+
+        <Hennis_Public.Pages.Components._Heading Page="Page"></Hennis_Public.Pages.Components._Heading>
+        <!-- End Heading Section -->
+
+
+        <div class="offset-md-1 col-md-10">
+            <div class="row ">
+                <EditForm Model="Application" OnValidSubmit="SubmitApplication">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="form-horizontal">
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Name</label>
+                                <SfTextBox @bind-Value="@Application.Name" />
+                                <ValidationMessage For="@(() => Application.Name)"></ValidationMessage>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Address</label>
+                                <SfTextBox Multiline="true" @bind-Value="@Application.Address" />
+                                <ValidationMessage For="@(() => Application.Address)"></ValidationMessage>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Email</label>
+                                <SfTextBox Type="InputType.Email" @bind-Value="@Application.Email" />
+                                <ValidationMessage For="@(() => Application.Email)"></ValidationMessage>
+                            </div>
+                            <div class="col-12">
+                                <label>Phone</label>
+                                <SfTextBox Type="InputType.Tel" @bind-Value="@Application.Phone" />
+                                <ValidationMessage For="@(() => Application.Phone)"></ValidationMessage>
+                            </div>
+                            <div class="col-12">
+                                <label>Professional License Number</label>
+                                <SfTextBox Type="InputType.Tel" @bind-Value="@Application.ProfessionalLicenseNumber" />
+                                <ValidationMessage For="@(() => Application.ProfessionalLicenseNumber)"></ValidationMessage>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Best time to contact you at home</label>
+                                <SfTextBox @bind-Value="@Application.ContactTime" />
+                                <ValidationMessage For="@(() => Application.ContactTime)"></ValidationMessage>
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Position Applied For</label>
+                                <SfTextBox @bind-Value="@Application.Position" />
+                                <ValidationMessage For="@(() => Application.Position)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>If you are under 18 years of age, can you provide required proof of your eligibility to work?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.CanProvideProof" DataSource="Hennis_Common.FormHelper.GetOver18Options">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.CanProvideProof)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Have you ever filed an application with us before?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.FilledApplicationBefore" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.FilledApplicationBefore)"></ValidationMessage>
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, please provide date</label>
+                                <SfTextBox @bind-Value="@Application.FilledApplicationBeforeDate" />
+                                <ValidationMessage For="@(() => Application.FilledApplicationBeforeDate)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Have you ever been employed with us before?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.EmployeedBefore" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.EmployeedBefore)"></ValidationMessage>
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, please provide date</label>
+                                <SfTextBox @bind-Value="@Application.EmployeedBeforeDate" />
+                                <ValidationMessage For="@(() => Application.EmployeedBeforeDate)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Do any of your friends relatives, other than spouse, work here?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.FriendsWorkHere" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.FriendsWorkHere)"></ValidationMessage>
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, state name, relationship and location</label>
+                                <SfTextBox Multiline="true" @bind-Value="@Application.FriendsWorkHereName" />
+                                <ValidationMessage For="@(() => Application.FriendsWorkHereName)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you currently employed?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.CurrentlyEmployed" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.CurrentlyEmployed)"></ValidationMessage>
+                            </div>
+                            <div class="col-12">
+                                <label>If yes, may we contact your current employer?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.ContactEmployer" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.ContactEmployer)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you prevented from lawfully becoming employed in the United State because of VISA or Immigration Status? <em>Proof of citizenship, immigration status, and right to work in the US will be required upon employment</em></label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.LawfulEmployee" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.LawfulEmployee)"></ValidationMessage>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you currently laid off and subject to recall?</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.CurrentlyLaidOff" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.CurrentlyLaidOff)"></ValidationMessage>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+
+                            <div class="col-12">
+                                <label>Date available for work</label>
+                                <SfTextBox Multiline="true" @bind-Value="@Application.DateAvailable" />
+                                <ValidationMessage For="@(() => Application.DateAvailable)"></ValidationMessage>
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-4">
+
+                            <div class="col-12">
+                                <label>What is your desired salary range?</label>
+                                <SfTextBox Multiline="true" @bind-Value="@Application.DesiredSalary" />
+                                <ValidationMessage For="@(() => Application.DesiredSalary)"></ValidationMessage>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="col-12">
+                                <label>Are you available to work:</label><br />
+                                <div class="row mb-3">
+                                    <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTime" Label="Full-Time" /><br />
+                                    <div class="pl-2">
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTimeFirst" Label="First" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTimeSecond" Label="Second" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.FullTimeThird" Label="Third" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTime" Label="Part-Time" /><br />
+                                    <div class="pl-2">
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTimeFirst" Label="First" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTimeSecond" Label="Second" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.PartTimeThird" Label="Third" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTime" Label="As Needed" /><br />
+                                    <div class="pl-2">
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTimeFirst" Label="First" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTimeSecond" Label="Second" />
+                                        <Syncfusion.Blazor.Buttons.SfCheckBox @bind-Checked="@Application.AsNeededTimeThird" Label="Third" />
+                                    </div>
+                                </div>
+                                @*<InputCheckbox  @bind-Value="@Application.AsNeeded"></InputCheckbox>*@
+                            </div>
+                        </div>
+
+                        <h3 class="text-capitalize">Work Experience</h3>
+                        <p>List your current job first, then your previous employment history. Include any job related military service assignments, and volunteer activities</p>
+                        <div class="mb-5">
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Employer</label>
+                                    <SfTextBox @bind-Value="@Application.Employer1" />
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Address</label>
+                                    <SfTextBox Multiline="true" @bind-Value="@Application.Address1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Telephone Number(s)</label>
+                                    <SfTextBox @bind-Value="@Application.TelephoneNumber1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Starting/Present Job Title</label>
+                                    <SfTextBox @bind-Value="@Application.JobTitle1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Supervisor/Manager</label>
+                                    <SfTextBox @bind-Value="@Application.Supervisor1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>May we contact?</label>
+                                    <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.MayWeContact1" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                        <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                    </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Reason for Leaving</label>
+                                    <SfTextBox @bind-Value="@Application.ReasonForLeaving1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Dates Employed</label><br>
+                                    <label>Start Date</label>
+                                    <SfTextBox @bind-Value="@Application.StartDate1" />
+                                    <label>End Date</label>
+                                    <SfTextBox @bind-Value="@Application.EndDate1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Hourly Rate/Salary</label><br>
+                                    <label>Beginning</label>
+                                    <SfTextBox @bind-Value="@Application.BeginningSalary1" />
+                                    <label>Ending</label>
+                                    <SfTextBox @bind-Value="@Application.EndingSalary1" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Duties/Work performed</label>
+                                    <SfTextBox @bind-Value="@Application.Duties1" />
+         
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Employer</label>
+                                    <SfTextBox @bind-Value="@Application.Employer2" />
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Address</label>
+                                    <SfTextBox Multiline="true" @bind-Value="@Application.Address2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Telephone Number(s)</label>
+                                    <SfTextBox @bind-Value="@Application.TelephoneNumber2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Starting/Present Job Title</label>
+                                    <SfTextBox @bind-Value="@Application.JobTitle2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Supervisor/Manager</label>
+                                    <SfTextBox @bind-Value="@Application.Supervisor2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>May we contact?</label>
+                                    <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.MayWeContact2" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                        <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                    </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Reason for Leaving</label>
+                                    <SfTextBox @bind-Value="@Application.ReasonForLeaving2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Dates Employed</label><br>
+                                    <label>Start Date</label>
+                                    <SfTextBox @bind-Value="@Application.StartDate2" />
+                                    <label>End Date</label>
+                                    <SfTextBox @bind-Value="@Application.EndDate2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Hourly Rate/Salary</label><br>
+                                    <label>Beginning</label>
+                                    <SfTextBox @bind-Value="@Application.BeginningSalary2" />
+                                    <label>Ending</label>
+                                    <SfTextBox @bind-Value="@Application.EndingSalary2" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Duties/Work performed</label>
+                                    <SfTextBox @bind-Value="@Application.Duties2" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Employer</label>
+                                    <SfTextBox @bind-Value="@Application.Employer3" />
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Address</label>
+                                    <SfTextBox Multiline="true" @bind-Value="@Application.Address3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Telephone Number(s)</label>
+                                    <SfTextBox @bind-Value="@Application.TelephoneNumber3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Starting/Present Job Title</label>
+                                    <SfTextBox @bind-Value="@Application.JobTitle3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Supervisor/Manager</label>
+                                    <SfTextBox @bind-Value="@Application.Supervisor3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>May we contact?</label>
+                                    <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.MayWeContact3" DataSource="Hennis_Common.FormHelper.GetYesNoOptions">
+                                        <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                    </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Reason for Leaving</label>
+                                    <SfTextBox @bind-Value="@Application.ReasonForLeaving3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Dates Employed</label><br>
+                                    <label>Start Date</label>
+                                    <SfTextBox @bind-Value="@Application.StartDate3" />
+                                    <label>End Date</label>
+                                    <SfTextBox @bind-Value="@Application.EndDate3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <div class="col-12">
+                                    <label>Hourly Rate/Salary</label><br>
+                                    <label>Beginning</label>
+                                    <SfTextBox @bind-Value="@Application.BeginningSalary3" />
+                                    <label>Ending</label>
+                                    <SfTextBox @bind-Value="@Application.EndingSalary3" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <div class="col-12">
+                                    <label>Duties/Work performed</label>
+                                    <SfTextBox @bind-Value="@Application.Duties3" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="text-uppercase">Education</h3>
+                        <div class="mb-4">
+                            <h4 class="h5">High School</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                                <SfTextBox @bind-Value="@Application.HighSchoolName" />
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                                <SfTextBox @bind-Value="@Application.HighSchoolStudy" />
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                                <SfTextBox @bind-Value="@Application.HighSchoolYearsComplete" />
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                                <SfTextBox @bind-Value="@Application.HighSchoolDiploma" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Undergraduate College</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                                <SfTextBox @bind-Value="@Application.UnderGradName" />
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                                <SfTextBox @bind-Value="@Application.UnderGradStudy" />
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                                <SfTextBox @bind-Value="@Application.UnderGradYearsComplete" />
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                                <SfTextBox @bind-Value="@Application.UnderGradDiploma" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Graduate Professional</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                                <SfTextBox @bind-Value="@Application.GraduateName" />
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                                <SfTextBox @bind-Value="@Application.GraduateStudy" />
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                                <SfTextBox @bind-Value="@Application.GraduateYearsComplete" />
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                                <SfTextBox @bind-Value="@Application.GraduateDiploma" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Technical/Specialty</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                                <SfTextBox @bind-Value="@Application.TechnicalName" />
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                                <SfTextBox @bind-Value="@Application.TechnicalStudy" />
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                                <SfTextBox @bind-Value="@Application.TechnicalYearsComplete" />
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                                <SfTextBox @bind-Value="@Application.TechnicalDiploma" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="h5">Other</h4>
+                            <div class="col-12">
+                                <label>Name and Address of School</label>
+                                <SfTextBox @bind-Value="@Application.OtherName" />
+                            </div>
+                            <div class="col-12">
+                                <label>Course of Study</label>
+                                <SfTextBox @bind-Value="@Application.OtherStudy" />
+                            </div>
+                            <div class="col-12">
+                                <label>Years Completed</label>
+                                <SfTextBox @bind-Value="@Application.OtherYearsComplete" />
+                            </div>
+                            <div class="col-12">
+                                <label>Diploma/Degree</label>
+                                <SfTextBox @bind-Value="@Application.OtherDiploma" />
+                            </div>
+                        </div>
+
+                        <h3 class="text-uppercase">Life Experience</h3>
+                        
+                            <div class="col-12 mb-3">
+                                <label>Describe any specialized training, apprenticeships, skills or extra curricular activities.</label>
+                                <SfTextBox Multiline="true" @bind-Value="@Application.SpecializedTraning" />
+                            </div>
+
+                        <div class="col-12 mb-3">
+                            <label>Describe any job related training received in the United State military.</label>
+                            <SfTextBox Multiline="true" @bind-Value="@Application.JobRelatedTraining" />
+                        </div>
+
+                          <div class="col-12 mb-3">
+                            <label>Describe any professional, trade, business, civic or other activities or office you have held.</label>
+                            <SfTextBox Multiline="true" @bind-Value="@Application.ProfessionalActivities" />
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label>Describe any other job related skills, qualifications or experiences.</label>
+                            <SfTextBox Multiline="true" @bind-Value="@Application.JobRelatedSkills" />
+                        </div>
+
+                        <h3 class="text-uppercase">Personal/Professional References</h3>
+                        <p>Do not include family members or past supervisors/managers.</p>
+
+                        <div class="mb-4">
+                            <div class="col-12 mb-3">
+                                <label>Name</label>
+                                <SfTextBox  @bind-Value="@Application.Reference1Name" />
+                                <ValidationMessage For="@(() => Application.Reference1Name)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Phone Number</label>
+                                <SfTextBox @bind-Value="@Application.Reference1Phone" />
+                                <ValidationMessage For="@(() => Application.Reference1Phone)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Occupation</label>
+                                <SfTextBox @bind-Value="@Application.Reference1Occupation" />
+                                <ValidationMessage For="@(() => Application.Reference1Occupation)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Best Time to Call</label>
+                                <SfTextBox @bind-Value="@Application.Reference1TimeToCall" />
+                                <ValidationMessage For="@(() => Application.Reference1TimeToCall)"></ValidationMessage>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="col-12 mb-3">
+                                <label>Name</label>
+                                <SfTextBox @bind-Value="@Application.Reference2Name" />
+                                <ValidationMessage For="@(() => Application.Reference2Name)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Phone Number</label>
+                                <SfTextBox @bind-Value="@Application.Reference2Phone" />
+                                <ValidationMessage For="@(() => Application.Reference2Phone)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Occupation</label>
+                                <SfTextBox @bind-Value="@Application.Reference2Occupation" />
+                                <ValidationMessage For="@(() => Application.Reference2Occupation)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Best Time to Call</label>
+                                <SfTextBox @bind-Value="@Application.Reference2TimeToCall" />
+                                <ValidationMessage For="@(() => Application.Reference2TimeToCall)"></ValidationMessage>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="col-12 mb-3">
+                                <label>Name</label>
+                                <SfTextBox  @bind-Value="@Application.Reference3Name" />
+                                <ValidationMessage For="@(() => Application.Reference3Name)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Phone Number</label>
+                                <SfTextBox @bind-Value="@Application.Reference3Phone" />
+                                <ValidationMessage For="@(() => Application.Reference3Phone)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Occupation</label>
+                                <SfTextBox @bind-Value="@Application.Reference3Occupation" />
+                                <ValidationMessage For="@(() => Application.Reference3Occupation)"></ValidationMessage>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Best Time to Call</label>
+                                <SfTextBox @bind-Value="@Application.Reference3TimeToCall" />
+                                <ValidationMessage For="@(() => Application.Reference3TimeToCall)"></ValidationMessage>
+                            </div>
+                        </div>
+
+                        <h3 class="text-uppercase">Applicant's Statement</h3>
+                        <p>I certify that all answers given herein are true and complete. I authorize the investigation of all statements contained in the application for employment as may be necessary in arriving in an employment decision.
+
+This application for employment shall be considered active for a period of time not to exceed 45 days. Any applicant who desires to be considered for employment past 45 days should inquire as to whether or not applications are being accepted at that time. I hereby understand and agree that any employment relationship with Hennis Care Centre, a smoke free facility, is of an "AT WILL" nature, which means that the employee may resign at any time and Hennis Care Centre may discharge the employee at any time with or without cause or notice. It is further understood that this "AT WILL" employment relationship may not be changed by any written documentation or verbal authority unless such change is authorized and specifically acknowledged in writing by the President of Hennis Care Centre. In the event of employment, I understand that false or misleading information given on my application or during an interview(s) may result in termination of employment. I understand that I will be required to abide by all the policy and procedures, rules and and regulations of Hennis Care Centre.</p>
+<div class="col-12 mb-3">
+                                <label>Signature</label>
+                                <SfTextBox @bind-Value="@Application.Signature" />
+                                <ValidationMessage For="@(() => Application.Signature)"></ValidationMessage>
+                            </div>
+
+                            <div class="form-group mb-4">
+
+                            <div class="col-12">
+                                <label>Applying To</label>
+                                <Syncfusion.Blazor.DropDowns.SfDropDownList TItem="Hennis_Common.DropdownModel" TValue="string" @bind-Value="@Application.LocationSubmitted" DataSource="Hennis_Common.FormHelper.GetLocations">
+                                    <Syncfusion.Blazor.DropDowns.DropDownListFieldSettings Value="Value" Text="Text" />
+                                </Syncfusion.Blazor.DropDowns.SfDropDownList>
+                                <ValidationMessage For="@(() => Application.LocationSubmitted)"></ValidationMessage>
+                            </div>
+
+                        </div>
+                       
+
+                        <div class="form-group row">
+                            <input class="btn btn-primary" type="submit" value="Submit" />
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+
+        <SfToast ID="toast_default" @ref="ToastObj" Title="Online Application" Content="@ToastContent" Timeout="5000" >
+            <ToastPosition X="@ToastPosition"></ToastPosition>
+        </SfToast>
+        @*<div class="col-lg-12 col-sm-12 col-md-12 center">
+            <div id="toastBtnDefault" style="margin: auto;text-align: center">
+                <button class="e-btn" @onclick="@ShowOnClick">Show Toasts</button>
+                <button class="e-btn" @onclick="@HideOnClick">Hide All</button>
+            </div>
+        </div>*@
+    </div>
+}
+
+
+@code {
+    SfToast? ToastObj = new SfToast();
+    private string ToastPosition = "Right";
+    private string ToastContent = "Thank you for submitting your application.";
+    public int LayoutToUse { get; set; } = 1;
+
+    public PageDto Page { get; set; } = new();
+
+    public bool IsLoading { get; set; } = true;
+    public OnlineApplicationDto Application { get; set; } = new OnlineApplicationDto();
+
+    private async Task ShowOnClick()
+    {
+        await this.ToastObj.ShowAsync();
+    }
+    private async Task HideOnClick()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            LoadPageContent();
+           
+        }
+    }
+
+    public async Task SubmitApplication()
+    {
+        var result = await _appRepo.SubmitApplication(Application);
+
+        if (result.Id > 0)
+        {
+            await this.ToastObj.ShowAsync();
+            _navigation.NavigateTo($"/");
+        }
+        else
+        {
+            ToastContent = "An error occurred";
+            StateHasChanged();
+            await this.ToastObj.HideAsync();
+        }
+    }
+
+    private async Task LoadPageContent()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Page = await _pageRepository.Get(25);
+        
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+
+}

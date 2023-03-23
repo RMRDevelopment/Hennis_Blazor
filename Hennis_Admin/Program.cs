@@ -53,8 +53,11 @@ builder.Services.AddScoped<IPaystubRepository, PaystubRepository>();
 builder.Services.AddScoped<IPaystubService, PaystubService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
-builder.Services.AddScoped<IHomePageTileRepository, HomePageTileRepository>();
+builder.Services.AddScoped<IPageTileRepository, PageTileRepository>();
+builder.Services.AddScoped<IImageGalleryRepository, ImageGalleryRepository>();
 builder.Services.AddScoped<IStaffImageRepository, StaffImageRepository>();
+builder.Services.AddScoped<IHappeningsRepository, HappeningsRepository>();
+builder.Services.AddScoped<IOnlineApplicationRepository, OnlineApplicationRepistory>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();

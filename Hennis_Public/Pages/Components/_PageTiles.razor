@@ -1,0 +1,38 @@
+﻿@using Hennis_Models.Dto
+@inject IPageTileRepository _repo;
+
+<div class="container">
+    @foreach (var item in Tiles){
+        
+        <div class="row mb-5">
+            <h4 style="color:#000;">@item.Title</h4>
+            <div class=" col-md-3">
+                <img class="img-responsive"  src="@($"data:image/png;base64,{Convert.ToBase64String(item?.ImageData)}")" />
+            </div>
+            <div class="col-md-12 col-lg-9">
+               
+                
+                    <p>@((MarkupString)@item.Content)</p>
+            </div>
+        </div>
+    }
+    
+</div>
+
+
+@code {
+
+    [Parameter]
+    public int PageId { get; set; }
+    public IEnumerable<PageTileDto> Tiles { get; set; } = new List<PageTileDto>();
+    public int counter { get; set; } = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Tiles = await _repo.GetAllWithImagesAsync(PageId,true);
+            StateHasChanged();
+        }
+    }
+}

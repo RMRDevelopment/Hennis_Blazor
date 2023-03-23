@@ -8,5 +8,10 @@ namespace Hennis_Public.Helper
         {
             await jsRuntime.InvokeVoidAsync("ShowStaffImageModal");
         }
+
+        public static async ValueTask InitShowMore(this IJSRuntime jsRuntime, string message = "")
+        {
+            await jsRuntime.InvokeVoidAsync("InitShowMoreFunction");
+        }
     }
 }

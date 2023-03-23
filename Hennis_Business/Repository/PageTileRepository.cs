@@ -15,20 +15,26 @@ using System.Threading.Tasks;
 
 namespace Hennis_Business.Repository
 {
-    public class HomePageTileRepository : GenericRepository<HomePageTile, HomePageTileDto>, IHomePageTileRepository
+    public class PageTileRepository : GenericRepository<PageTile, PageTileDto>, IPageTileRepository
     {
 
         private readonly IMapper _mapper;
 
-        public HomePageTileRepository( IMapper mapper) : base(mapper)
+        public PageTileRepository( IMapper mapper) : base(mapper)
         {
 
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<HomePageTileDto>> GetAllWithImagesAsync(bool removeDeleted = false)
+        public async Task<IEnumerable<PageTileDto>> GetAllWithImagesAsync(int? pageId, bool removeDeleted = false)
         {
-            var list = await _context.HomePageTiles.Include(x => x.Image).ProjectTo<HomePageTileDto>(_mapper.ConfigurationProvider).ToListAsync();
+            var list = await _context.PageTiles.Include(x => x.Image).ProjectTo<PageTileDto>(_mapper.ConfigurationProvider).ToListAsync();
+            
+            if (pageId.HasValue)
+            {
+                list = list.Where( x=> x.PageId == pageId.Value ).ToList();
+            }
+
             if (removeDeleted)
             {
                 return list.Where(x => x.Deleted == false).ToList();
@@ -38,7 +44,7 @@ namespace Hennis_Business.Repository
 
         public async Task<int> GetImageId(int id)
         {
-            return await _context.HomePageTiles.Where(x => x.Id == id).Select(x => x.ImageId).FirstOrDefaultAsync();
+            return await _context.PageTiles.Where(x => x.Id == id).Select(x => x.ImageId).FirstOrDefaultAsync();
         }
     }
 }

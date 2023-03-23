@@ -1,8 +1,10 @@
 ﻿@page "/EmployeeHappenings"
 @inject IPageRepository _pageRepository
+@inject IHappeningsRepository _happeningsRepo
+@inject IJSRuntime jsRuntime
 @using Hennis_Models.Dto
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Hennis Care Centre of Bolivar and Dover</PageTitle>
 
 
 
@@ -15,22 +17,53 @@
 else
 {
 
-    
-    
+
+
+
     <div class="container">
-    <!-- section for text-->
-    @if (Page.LayoutId == 1)
+        <!-- Heading Section -->
+
+        <Hennis_Public.Pages.Components._Heading Page="Page"></Hennis_Public.Pages.Components._Heading>
+        <!-- End Heading Section -->
+
+        <div class="offset-md-1 col-md-10">
+            <div class="row">
+                @foreach (var item in Items)
+                {
+                    <div class="px-4">
+                        <div class="happenings-item ">
+
+                            <h3>@item.DisplayTitle</h3>
+
+                            <div class="content hideContent">
+                                @((MarkupString)@item.Content)
+                            </div>
+                            @if (item.Content.Length > 200)
+                            {
+                                <div class="show-more mt-1">
+                                    <button href="#">Show More</button>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <!-- section for text-->
+        @*@if (Page.LayoutId == 1)
     {
-        <Hennis_Public.Shared.Layouts._FullWidth Page="Page"></Hennis_Public.Shared.Layouts._FullWidth>
+    <Hennis_Public.Shared.Layouts._FullWidth Page="Page"></Hennis_Public.Shared.Layouts._FullWidth>
     }
     else
     {
-        <Hennis_Public.Shared.Layouts._TwoColumn Page="Page"></Hennis_Public.Shared.Layouts._TwoColumn>
-    }
-    <!-- end text section-->
+    <Hennis_Public.Shared.Layouts._TwoColumn Page="Page"></Hennis_Public.Shared.Layouts._TwoColumn>
+    }*@
+        <!-- end text section-->
     </div>
 }
-
 
 
 @code {
@@ -39,6 +72,7 @@ else
     public PageDto Page { get; set; } = new();
 
     public bool IsLoading { get; set; } = true;
+    public List<HappeningsDto> Items { get; set; } = new List<HappeningsDto>();
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -53,8 +87,9 @@ else
         IsLoading = true;
         StateHasChanged();
         Page = await _pageRepository.Get(23);
+        Items = _happeningsRepo.GetEmployeeHappenings().GetAwaiter().GetResult().OrderBy(x => x.Date).ToList();
+        jsRuntime.InvokeVoidAsync("InitShowMoreFunction");
         IsLoading = false;
         StateHasChanged();
     }
 }
-
