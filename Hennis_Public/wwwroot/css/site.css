@@ -109,7 +109,11 @@ a, .btn-link {
 .tile-img-container{
     position:relative;
     top:15px;
-    z-index:1;
+    z-index:3;
+}
+.tile-img-container img{
+    position:relative;
+    right:-50px;
 }
 
 .height-75{

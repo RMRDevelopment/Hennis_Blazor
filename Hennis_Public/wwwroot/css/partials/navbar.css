@@ -26,6 +26,10 @@
     display: block;
 }
 
+.nav-item{
+    font-size:1.1em;
+}
+
 .nav-item .dropdown-menu .dropdown-item {
     color: #555;
 }

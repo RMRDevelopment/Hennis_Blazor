@@ -64,6 +64,10 @@
             position:relative;
             width:100%;
         }
+
+        .text-container .d-flex{
+            position:relative;
+        }
 </style>
 
 @if (IsLoading)
@@ -77,16 +81,16 @@ else
 
     <!-- Start Video Banner-->
 
-    <header>
+    <header class="mb-5">
     <div class="overlay"></div>
 
     <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
         <source src="/css/assets/bgvideo.mov" type="video/mp4"/>
     </video>
 
-    <div class="text-container z2">
+    <div class="text-container ">
         <div class="container">
-                <div class="d-flex w-25 vh-75 align-items-center">
+                <div class="d-flex z2 w-25 vh-75 align-items-center">
                     <h2 class="text-white">Enjoy our Hospitality</h2>
                 </div>
         </div>
